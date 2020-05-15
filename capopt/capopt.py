@@ -79,8 +79,7 @@ def runAlgorithm(command):
                 killProcess(process.pid)
                 status = 11
                 break
-        
-        #time.sleep(0.5)
+        if data.scenario['effort-type'] == "time": time.sleep(0.5)
 
     if status is None:
         status = process.poll()
@@ -92,14 +91,18 @@ def runAlgorithm(command):
             if point is not None:
                 trajectory.addPoint(point, data.scenario['effort-limit'])
                 executionEffort = point.effort
-        print(trajectory.getResult())
+        
+        if data.scenario['budget-type'] == "timeout": print(str(trajectory.getResult()) + ' ' + str(time.time() - startTime))
+        else: print(trajectory.getResult())
         result = "ok"
     elif status == 11:
         result = "capped"
-        if data.scenario['capping-penalty'] == "biggest":
-            print(sys.maxsize)
-        elif data.scenario['capping-penalty'] == "best-so-far":
-            print(trajectory.getResult())
+        if data.scenario['penalty'] == "biggest":
+            if data.scenario['budget-type'] == "timeout": print(str(sys.maxsize) + ' ' + str(time.time() - startTime))
+            else: print(sys.maxsize)
+        elif data.scenario['penalty'] == "best-so-far":
+            if data.scenario['budget-type'] == "timeout": print(str(trajectory.getResult()) + ' ' + str(time.time() - startTime))
+        else: print(trajectory.getResult())
     else:
         exit(status)
     

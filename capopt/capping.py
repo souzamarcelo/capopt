@@ -10,7 +10,7 @@ from classes import Point
 class Capping:
     def __init__(self, _data):
         self.data = _data
-        self.cappingMechanism = (AreaCapping(_data) if self.data.scenario['capping-mechanism'] == "area" else SimpleCapping(_data))
+        self.cappingMechanism = (AreaCapping(_data) if self.data.scenario['envelope'] == "area" else ProfileCapping(_data))
 
     def cap(self, effort, trajectory):
         if trajectory.isEmpty() or effort > self.data.scenario['effort-limit'] or self.data.execution['iteration'] <= 1:
@@ -22,14 +22,14 @@ class Capping:
             
 
 
-class SimpleCapping:
+class ProfileCapping:
     def __init__(self, _data):
         self.data = _data
         self.bestSoFar = float("inf")
         self.envelope = None
 
-        if self.data.scenario['capping-strategy'] == "adaptive" and self.data.isNewIteration():
-            self.data.execution['capping-aggressiveness'] = self.updateAggressiveness()
+        if self.data.scenario['strategy'] == "adaptive" and self.data.isNewIteration():
+            self.data.execution['aggressiveness'] = self.updateAggressiveness()
         self.envelope = self.getEnvelope()
 
 
@@ -49,8 +49,8 @@ class SimpleCapping:
 
 
     def getEnvelope(self):
-        if self.data.execution['iteration'] == 1: return "<first iteration>"
-        if self.data.scenario['capping-strategy'] == "elitist":
+        if self.data.execution['iteration'] <= 1: return "<first iteration>"
+        if self.data.scenario['strategy'] == "elitist":
             if self.data.execution['candidate-id'] in self.data.execution['irace-elites']: return "<evaluating elite candidate>"
             elites = self.selectElites()
             aggregatedReplications = self.aggregateReplications(elites)
@@ -58,11 +58,11 @@ class SimpleCapping:
             envelope = self.aggregateConfigurations(aggregatedReplications)
             envelope.clean()
             return envelope
-        if self.data.scenario['capping-strategy'] == "adaptive":
+        if self.data.scenario['strategy'] == "adaptive":
             executions = self.data.getExecutions(self.data.execution['instance-id'], False)
             if len(executions) == 0: return "<no previous execution>"
             executions.sort(key = lambda x : x['trajectory'].getResult())
-            index = max(1, ceil((1 - self.data.execution['capping-aggressiveness']) * len(executions)))
+            index = max(1, ceil((1 - self.data.execution['aggressiveness']) * len(executions)))
             executions = executions[:index]
             efforts = []
             [efforts.extend([point.effort for point in execution['trajectory'].points if point.effort not in efforts]) for execution in executions]
@@ -89,15 +89,15 @@ class SimpleCapping:
 
     def aggregate(self, replications):
         result = Trajectory(0, 0, 0, [])
-        if self.data.scenario['agg-replications'] == "exp":
+        if self.data.scenario['ar'] == "exp":
             return self.exponentialModel(replications)
         efforts = []
         [efforts.extend([point.effort for point in replication.points if point.effort not in efforts]) for replication in replications]
         efforts.sort()
         for effort in efforts:
-            if self.data.scenario['agg-replications'] == "best":
+            if self.data.scenario['ar'] == "best":
                 result.points.append(Point(effort, min([replication.getValue(effort) for replication in replications])))
-            elif self.data.scenario['agg-replications'] == "worst":
+            elif self.data.scenario['ar'] == "worst":
                 result.points.append(Point(effort, max([replication.getValue(effort) for replication in replications])))
         return result
         
@@ -117,7 +117,7 @@ class SimpleCapping:
                 penaltyValue = self.data.scenario['effort-limit'] * self.data.scenario['alpha']
                 meanEffort += replication.getEffort(value, penaltyValue)
             meanEffort = meanEffort / len(replications)
-            effort = -log(1 - self.data.scenario['p']) * meanEffort
+            effort = -log(1 - (1 - self.data.scenario['p'])) * meanEffort
             point = Point(effort, value)
             result.points.append(point)
         return result
@@ -129,22 +129,22 @@ class SimpleCapping:
         [efforts.extend([point.effort for point in trajectory.points if point.effort not in efforts]) for trajectory in trajectories]
         efforts.sort()
         for effort in efforts:
-            if self.data.scenario['agg-configurations'] == "best":
+            if self.data.scenario['ac'] == "best":
                 envelope.points.append(Point(effort, min([trajectory.getValue(effort) for trajectory in trajectories])))
-            if self.data.scenario['agg-configurations'] == "worst":
+            if self.data.scenario['ac'] == "worst":
                 envelope.points.append(Point(effort, max([trajectory.getValue(effort) for trajectory in trajectories])))
         return envelope
 
 
     def updateAggressiveness(self):
-        lastAggressiveness = (self.data.previousExecutions[-1]['capping-aggressiveness'] if len(self.data.previousExecutions) > 0 else "NA")
-        if self.data.execution['iteration'] == 1: return lastAggressiveness
+        lastAggressiveness = (self.data.previousExecutions[-1]['aggressiveness'] if len(self.data.previousExecutions) > 0 else "NA")
+        if self.data.execution['iteration'] <= 1: return lastAggressiveness
         nbExecutions, nbCapping = self.data.getAmountExecutionsLastIteration()
         amountCapping = nbCapping / nbExecutions
 
-        if amountCapping < self.data.scenario['capping-goal'] - 0.05:
+        if amountCapping < self.data.scenario['ag'] - self.data.scenario['epsilon']:
             executions = self.data.getExecutionsOfLastIteration(False)
-            nbToCap = floor((self.data.scenario['capping-goal'] * nbExecutions)) - nbCapping
+            nbToCap = floor((self.data.scenario['ag'] * nbExecutions)) - nbCapping
             aggList = []
             for exe in executions:
                 agg = self.aggressivenessToCap(exe)
@@ -153,9 +153,9 @@ class SimpleCapping:
             nbToCap = max(min(nbToCap, len(aggList)), 0)
             return aggList[nbToCap - 1]
 
-        elif amountCapping > self.data.scenario['capping-goal'] + 0.05:
+        elif amountCapping > self.data.scenario['ag'] + self.data.scenario['epsilon']:
             executions = self.data.getExecutionsOfLastIteration(True)
-            nbToKeep = nbCapping - floor((self.data.scenario['capping-goal'] * nbExecutions))
+            nbToKeep = nbCapping - floor((self.data.scenario['ag'] * nbExecutions))
             aggList = []
             for exe in executions:
                 agg = self.aggressivenessToKeep(exe)
@@ -251,8 +251,8 @@ class AreaCapping:
         self.data = _data
         self.maxArea = None
 
-        if self.data.scenario['capping-strategy'] == "adaptive" and self.data.isNewIteration():
-            self.data.execution['capping-aggressiveness'] = self.updateAggressiveness()
+        if self.data.scenario['strategy'] == "adaptive" and self.data.isNewIteration():
+            self.data.execution['aggressiveness'] = self.updateAggressiveness()
         self.maxArea = self.getMaxArea()
     
 
@@ -272,18 +272,18 @@ class AreaCapping:
 
 
     def getMaxArea(self):
-        if self.data.execution['iteration'] == 1: return "<first iteration>"
-        if self.data.scenario['capping-strategy'] == "adaptive":
+        if self.data.execution['iteration'] <= 1: return "<first iteration>"
+        if self.data.scenario['strategy'] == "adaptive":
             executions = self.data.getExecutions(self.data.execution['instance-id'], False)
             if len(executions) == 0: return "<no previous execution>"
             areas = []
             for exe in executions:
                 areas.append(self.calculateArea(exe['trajectory'], self.data.scenario['effort-limit']))
             areas.sort()
-            index = max(0, ceil((1 - self.data.execution['capping-aggressiveness']) * len(areas)) - 1)
+            index = max(0, ceil((1 - self.data.execution['aggressiveness']) * len(areas)) - 1)
             return areas[index]
         
-        if self.data.scenario['capping-strategy'] == "elitist":
+        if self.data.scenario['strategy'] == "elitist":
             if self.data.execution['candidate-id'] in self.data.execution['irace-elites']: return "<evaluating elite candidate>"
             elites = self.selectElites()
             aggregatedReplications = self.aggregateReplications(elites)
@@ -308,28 +308,28 @@ class AreaCapping:
 
 
     def aggregate(self, replications):
-        if self.data.scenario['agg-replications'] == "best":
+        if self.data.scenario['ar'] == "best":
             return min(replications, key = lambda x: self.calculateArea(x, self.data.scenario['effort-limit']))
-        elif self.data.scenario['agg-replications'] == "worst":
+        elif self.data.scenario['ar'] == "worst":
             return max(replications, key = lambda x: self.calculateArea(x, self.data.scenario['effort-limit']))
 
 
     def aggregateConfigurations(self, trajectories):
-        if self.data.scenario['agg-configurations'] == "best":
+        if self.data.scenario['ac'] == "best":
             return min([self.calculateArea(trajectory, self.data.scenario['effort-limit']) for trajectory in trajectories])
-        elif self.data.scenario['agg-configurations'] == "worst":
+        elif self.data.scenario['ac'] == "worst":
             return max([self.calculateArea(trajectory, self.data.scenario['effort-limit']) for trajectory in trajectories])
 
 
     def updateAggressiveness(self):
-        lastAggressiveness = (self.data.previousExecutions[-1]['capping-aggressiveness'] if len(self.data.previousExecutions) > 0 else "NA")
-        if self.data.execution['iteration'] == 1: return lastAggressiveness
+        lastAggressiveness = (self.data.previousExecutions[-1]['aggressiveness'] if len(self.data.previousExecutions) > 0 else "NA")
+        if self.data.execution['iteration'] <= 1: return lastAggressiveness
         nbExecutions, nbCapping = self.data.getAmountExecutionsLastIteration()
         amountCapping = nbCapping / nbExecutions
 
-        if amountCapping < self.data.scenario['capping-goal'] - 0.05:
+        if amountCapping < self.data.scenario['ag'] - self.data.scenario['epsilon']:
             executions = self.data.getExecutionsOfLastIteration(False)
-            nbToCap = floor((self.data.scenario['capping-goal'] * nbExecutions)) - nbCapping
+            nbToCap = floor((self.data.scenario['ag'] * nbExecutions)) - nbCapping
             aggList = []
             for exe in executions:
                 agg = self.aggressivenessToCap(exe)
@@ -338,9 +338,9 @@ class AreaCapping:
             nbToCap = max(min(nbToCap, len(aggList)), 0)
             return aggList[nbToCap - 1]
 
-        elif amountCapping > self.data.scenario['capping-goal'] + 0.05:
+        elif amountCapping > self.data.scenario['ag'] + self.data.scenario['epsilon']:
             executions = self.data.getExecutionsOfLastIteration(True)
-            nbToKeep = nbCapping - floor((self.data.scenario['capping-goal'] * nbExecutions))
+            nbToKeep = nbCapping - floor((self.data.scenario['ag'] * nbExecutions))
             aggList = []
             for exe in executions:
                 agg = self.aggressivenessToKeep(exe)

@@ -1,0 +1,13 @@
+executable: ./acotsp
+fixed-params: -r 1 --quiet
+instance-command: -i
+seed-command: --seed
+effort-limit-command: -t
+effort-limit: 20
+effort-type: time
+capping: True
+penalty: best-so-far
+envelope: area
+strategy: adaptive
+ag: 0.4
+epsilon: 0.05

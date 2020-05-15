@@ -14,18 +14,20 @@ scenarioAttributes = [
     {'name':'instance-command',     'type':'str',       'default':''},
     {'name':'seed-command',         'type':'str',       'default':''},
     {'name':'effort-limit-command', 'type':'str',       'default':''},
-    {'name':'effort-limit',         'type':'int',       'default':0},
+    {'name':'effort-limit',         'type':'int',       'default':60},
     {'name':'effort-type',          'type':'str',       'default':'time'},
-    {'name':'capping',              'type':'boolean',   'default':False},
-    {'name':'capping-mechanism',    'type':'str',       'default':'simple'},
-    {'name':'capping-strategy',     'type':'str',       'default':'elitist'},
-    {'name':'capping-goal',         'type':'float',     'default':0.5},
-    {'name':'capping-penalty',      'type':'str',       'default':'biggest'},
-    {'name':'sel-elites',           'type':'str',       'default':''},
-    {'name':'agg-replications',     'type':'str',       'default':''},
-    {'name':'agg-configurations',   'type':'str',       'default':''},
-    {'name':'p',                    'type':'float',     'default':0},
-    {'name':'alpha',                'type':'int',       'default':0}
+    {'name':'capping',              'type':'boolean',   'default':True},
+    {'name':'envelope',             'type':'str',       'default':'profile'},
+    {'name':'strategy',             'type':'str',       'default':'elitist'},
+    {'name':'penalty',              'type':'str',       'default':'best-so-far'},
+    {'name':'sel-elites',           'type':'str',       'default':'elites'},
+    {'name':'ag',                   'type':'float',     'default':0.5},
+    {'name':'epsilon',              'type':'float',     'default':0.05},
+    {'name':'ar',                   'type':'str',       'default':'worst'},
+    {'name':'ac',                   'type':'str',       'default':'worst'},
+    {'name':'p',                    'type':'float',     'default':0.1},
+    {'name':'alpha',                'type':'int',       'default':10},
+    {'name':'budget-type',          'type':'str',       'default':'executions'},
 ]
 
 executionAttributes = [
@@ -36,7 +38,7 @@ executionAttributes = [
     {'name':'instance-name',            'type':'str'},
     {'name':'seed',                     'type':'int'},
     {'name':'iteration',                'type':'int'},
-    {'name':'start-datetime',          'type':'str'},
+    {'name':'start-datetime',           'type':'str'},
     {'name':'stop-datetime',            'type':'str'},
     {'name':'start-timestamp',          'type':'float'},
     {'name':'stop-timestamp',           'type':'float'},
@@ -50,7 +52,7 @@ executionAttributes = [
     {'name':'envelope',                 'type':'envelope'},
     {'name':'max-area',                 'type':'float'},
     {'name':'exec-area',                'type':'float'},
-    {'name':'capping-aggressiveness',   'type':'float'},
+    {'name':'aggressiveness',           'type':'float'},
     {'name':'bkv',                      'type':'literal'}
 ]
 
@@ -105,7 +107,7 @@ class Data:
         self.execution['start-datetime'] = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         self.execution['start-timestamp'] = time.time()
         self.execution['irace-elites'] = self.readLastIterationElites(self.execution['iteration'])
-        self.execution['capping-aggressiveness'] = (self.previousExecutions[-1]['capping-aggressiveness'] if len(self.previousExecutions) > 0 else "NA")
+        self.execution['aggressiveness'] = (self.previousExecutions[-1]['aggressiveness'] if len(self.previousExecutions) > 0 else "NA")
         self.execution['bkv'] = (self.previousExecutions[-1]['bkv'] if len(self.previousExecutions) > 0 else {})
         if _instanceName not in self.execution['bkv']: self.execution['bkv'][_instanceName] = float("inf")
 
@@ -125,7 +127,6 @@ class Data:
         self.execution['total-effort'] = (self.execution['execution-effort'] + self.previousExecutions[-1]['total-effort'] if len(self.previousExecutions) > 0 else self.execution['execution-effort'])
         self.execution['status'] = status
         self.execution['trajectory'] = trajectory
-        #self.execution['bkv'][self.execution['instance-name']] = min(self.execution['bkv'][self.execution['instance-name']], trajectory.getResult())
 
         values = capping.report(trajectory) if self.scenario['capping'] else {'envelope':'NA', 'max-area':'NA', 'exec-area':'NA'}
         self.execution['envelope'] = values['envelope']
@@ -185,6 +186,7 @@ class Data:
 
 
     def readIteration(self):
+        if not os.path.isfile("irace.Rdata"): return 0
         robjects.r['load']("irace.Rdata")
         iteration = robjects.r('iraceResults$state$indexIteration')
         iteration = int(iteration[0])
@@ -220,7 +222,7 @@ class Data:
 
     def readParameter(self, key, type, default):
         result = None
-        paramFile = open("parameters-target-runner.txt", "r")
+        paramFile = open("parameters-capopt.txt", "r")
         for line in paramFile.readlines():
             line = line.replace("\n", "").strip()
             if line != "" and line[0] != "#":
