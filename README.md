@@ -89,7 +89,7 @@ To use *capopt* with the irace configurator, follow the steps below:
 
 **Important:**
    + The target algorithm must periodically output the cost of the best found solution. This is the only requirement to use *capopt*.
-   + In case of difficulties, check the example below, the complete [documentation](docs), or [contact us](#support).
+   + In case of difficulties, check the example below, the complete [documentation](https://capopt.github.io/docs), or [contact us](#support).
 
 ***
 
