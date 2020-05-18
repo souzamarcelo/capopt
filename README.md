@@ -22,9 +22,9 @@ The following article describes *capopt* in detail and present an extensive expe
 #### Bibtex
 ```
 @article{DeSouzaEtAl2020,
-   title   = {Capping Strategies for the Automatic Configuration of Optimization Algorithms},
-   author  = {de Souza, Marcelo and Ritt, Marcus and L{\'o}pez-Ib{\'a}{\~n}ez, Manuel},
-   journal = {Submitted to Computers \& Operations Research},
+   title   = {Capping Strategies for the Automatic Configuration of Optimization Algorithms},<br>
+   author  = {de Souza, Marcelo and Ritt, Marcus and L{\'o}pez-Ib{\'a}{\~n}ez, Manuel},<br>
+   journal = {Submitted to Computers \& Operations Research},<br>
    year    = {2020}
 }
 ```
