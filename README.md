@@ -1,12 +1,12 @@
 # capopt: Capping Methods for the Automatic Configuration of Optimization Algorithms
 
 Welcome to the *capopt* repository!<br>
-[people](#people)|
-[download](#download)|
-[getting started](#getting-started)|
-[example](#example)|
-[license](#license)|
-[support](#support)|
+[people](#people) |
+[download](#download) |
+[getting started](#getting-started) |
+[example](#example) |
+[license](#license) |
+[support](#support) |
 [documentation](https://capopt.github.io/docs)
 
 ***
