@@ -12,12 +12,12 @@ Welcome to the capopt project website!<br>
 
 The main objective of *capopt* is to speed up the automatic configuration of optimization algorithms. It implements several capping methods for optimization scenarios. These methods use the performance of previously seen executions to determine a performance envelope, which is used to evaluate how good a new configuration is during its execution. If a poorly performing configuration is identified, *capopt* stops the execution and returns a penalized result value.
 
-The following article describes *capopt* in detail and present an extensive experimental evaluation. You can also check its [supplementary page](suppcor) for further experimental details.
+The following article describes *capopt* in detail and present an extensive experimental evaluation. You can also check its [supplementary page](https://capopt.github.io/suppcor) for further experimental details.
 
 > **Capping Strategies for the Automatic Configuration of Optimization Algorithms**<br>
 > Marcelo de Souza, Marcus Ritt, and Manuel López-Ibáñez<br>
 > Submitted to Computers & Operations Research, 2020.<br>
-> [preprint will be available soon | [supplementary page](suppcor)]
+> [preprint will be available soon | [supplementary page](https://capopt.github.io/suppcor)]
 
 #### Bibtex
 ```
@@ -63,12 +63,10 @@ If you are using *capopt* with irace, you will need to install the [R software e
 
 To use *capopt* with the irace configurator, follow the steps below:
 
-1. [Download *capopt*][capopt].
-<br><br>
+1. Download *capopt*.
 
 2. Copy the source code (`capopt` folder) to the project directory.
    + *capopt* will replace the `target-runner` script that is used to communicate irace with the target algorithm.
-<br><br>
 
 3. Configure the parameter settings of *capopt*.
    + Create a file named `parameters-capopt.txt` in the project directory.
