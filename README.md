@@ -14,17 +14,17 @@ The main objective of *capopt* is to speed up the automatic configuration of opt
 
 The following article describes *capopt* in detail and present an extensive experimental evaluation. You can also check its [supplementary page](https://capopt.github.io/suppcor) for further experimental details.
 
-> **Capping Strategies for the Automatic Configuration of Optimization Algorithms**
-> Marcelo de Souza, Marcus Ritt, and Manuel López-Ibáñez
-> Submitted to Computers & Operations Research, 2020.
+> **Capping Strategies for the Automatic Configuration of Optimization Algorithms**<br>
+> Marcelo de Souza, Marcus Ritt, and Manuel López-Ibáñez<br>
+> Submitted to Computers & Operations Research, 2020.<br>
 > [preprint will be available soon | [supplementary page](https://capopt.github.io/suppcor)]
 
 #### Bibtex
 ```
 @article{DeSouzaEtAl2020,
-   title   = {Capping Strategies for the Automatic Configuration of Optimization Algorithms},<br>
-   author  = {de Souza, Marcelo and Ritt, Marcus and L{\'o}pez-Ib{\'a}{\~n}ez, Manuel},<br>
-   journal = {Submitted to Computers \& Operations Research},<br>
+   title   = {Capping Strategies for the Automatic Configuration of Optimization Algorithms},
+   author  = {de Souza, Marcelo and Ritt, Marcus and L{\'o}pez-Ib{\'a}{\~n}ez, Manuel},
+   journal = {Submitted to Computers \& Operations Research},
    year    = {2020}
 }
 ```
