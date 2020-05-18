@@ -14,9 +14,9 @@ The main objective of *capopt* is to speed up the automatic configuration of opt
 
 The following article describes *capopt* in detail and present an extensive experimental evaluation. You can also check its [supplementary page](https://capopt.github.io/suppcor) for further experimental details.
 
-> **Capping Strategies for the Automatic Configuration of Optimization Algorithms**<br>
-> Marcelo de Souza, Marcus Ritt, and Manuel López-Ibáñez<br>
-> Submitted to Computers & Operations Research, 2020.<br>
+> **Capping Strategies for the Automatic Configuration of Optimization Algorithms**
+> Marcelo de Souza, Marcus Ritt, and Manuel López-Ibáñez
+> Submitted to Computers & Operations Research, 2020.
 > [preprint will be available soon | [supplementary page](https://capopt.github.io/suppcor)]
 
 #### Bibtex
@@ -71,15 +71,12 @@ To use *capopt* with the irace configurator, follow the steps below:
 3. Configure the parameter settings of *capopt*.
    + Create a file named `parameters-capopt.txt` in the project directory.
    + Copy the content of [this file][default-parameters-capopt] and set the corresponding information (make sure to uncomment the properties you set).
-<br><br>
 
 4. Configure irace to call capopt as target runner.
    + Include `targetRunner = "./capopt/capopt.py"` in the `scenario.txt` file.
-<br><br>
 
 5. If you need, make some adjustements on `capopt.py`. 
    + You can change the `parseOutput` function to handle the target algorithm's output properly.
-<br><br>
 
 6. **Done!** You can now run irace with *capopt*. You should have a project directory with (at least) the following content:
    + `capopt`: folder containing *capopt*.
@@ -160,7 +157,6 @@ IMPORTANT NOTE: Please be aware that the fact that this program is released as F
 ## Support
 
 For any question or suggestion please contact [Marcelo de Souza][marcelo] (marcelo.desouza [at] udesc.br).
-<br><br>
 
 [marcelo]: https://souzamarcelo.github.io
 [marcus]: https://www.inf.ufrgs.br/~mrpritt
