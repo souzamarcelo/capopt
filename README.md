@@ -96,7 +96,7 @@ To use *capopt* with the irace configurator, follow the steps below:
 
 ### Automatic configuration of ACOTSP
 
-The project directory downloaded [here][example-acotsp]{:target=" _blank"}, containing the following content:
+The project directory downloaded [here][example-acotsp], containing the following content:
 + `capopt` folder;
 + `instances` folder;
 + `src-acotsp` folder with the source code of ACOTSP;
