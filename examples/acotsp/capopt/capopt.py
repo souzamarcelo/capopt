@@ -102,7 +102,7 @@ def runAlgorithm(command):
             else: print(sys.maxsize)
         elif data.scenario['penalty'] == "best-so-far":
             if data.scenario['budget-type'] == "timeout": print(str(trajectory.getResult()) + ' ' + str(time.time() - startTime))
-        else: print(trajectory.getResult())
+            else: print(trajectory.getResult())
     else:
         exit(status)
     
