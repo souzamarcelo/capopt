@@ -62,7 +62,7 @@ If you are using *capopt* with irace, you will need to install the [R software e
 
 ## Getting Started
 
-To use *capopt* with the irace configurator, follow the steps below:
+To use *capopt* with the irace configurator, set the project directory according to the [irace user guide][iracedoc], then follow the steps below:
 
 1. Download *capopt*.
 
@@ -78,6 +78,9 @@ To use *capopt* with the irace configurator, follow the steps below:
 
 5. If you need, make some adjustements on `capopt.py`. 
    + You can change the `parseOutput` function to handle the target algorithm's output properly.
+   + The provided `parseOutput` behaves as follows:
+     + In case of using time as effort measure, *capopt* manages the execution time externaly and expects to read only the solution cost (e.g. "1673.44").
+     + In case of using another effort measure, *capopt* expects to read the effort and the solution cost separated by a whitespace (e.g. "493 1673.44").
 
 6. **Done!** You can now run irace with *capopt*. You should have a project directory with (at least) the following content:
    + `capopt`: folder containing *capopt*.
@@ -169,3 +172,4 @@ For any question or suggestion please contact [Marcelo de Souza][marcelo] (marce
 [rpy2]: https://rpy2.github.io
 [psutil]: https://psutil.readthedocs.io/en/latest
 [example-acotsp]: https://github.com/capopt/capopt/tree/master/examples/acotsp
+[iracedoc]: https://cran.r-project.org/web/packages/irace/vignettes/irace-package.pdf
