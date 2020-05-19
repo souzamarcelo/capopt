@@ -62,7 +62,7 @@ If you are using *capopt* with irace, you will need to install the [R software e
 
 ## Getting Started
 
-To use *capopt* with the irace configurator, follow the steps below:
+To use *capopt* with the irace configurator, set the project directory according to the [irace user guide][iracedoc], then follow the steps below:
 
 1. Download *capopt*.
 
@@ -169,3 +169,4 @@ For any question or suggestion please contact [Marcelo de Souza][marcelo] (marce
 [rpy2]: https://rpy2.github.io
 [psutil]: https://psutil.readthedocs.io/en/latest
 [example-acotsp]: https://github.com/capopt/capopt/tree/master/examples/acotsp
+[iracedoc]: https://cran.r-project.org/web/packages/irace/vignettes/irace-package.pdf
