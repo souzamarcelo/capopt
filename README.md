@@ -78,6 +78,9 @@ To use *capopt* with the irace configurator, set the project directory according
 
 5. If you need, make some adjustements on `capopt.py`. 
    + You can change the `parseOutput` function to handle the target algorithm's output properly.
+   + The provided `parseOutput` behaves as follows:
+     + In case of using time as effort measure, *capopt* manages the execution time externaly and expects to read only the solution cost (e.g. "1673.44").
+     + In case of using another effort measure, *capopt* expects to read the effort and the solution cost separated by a whitespace (e.g. "493 1673.44").
 
 6. **Done!** You can now run irace with *capopt*. You should have a project directory with (at least) the following content:
    + `capopt`: folder containing *capopt*.
