@@ -33,7 +33,7 @@ def main():
     if data.scenario['capping']:
         capping = Capping(data)
     
-    command = "stdbuf -oL -e0 " + data.scenario['executable']
+    command = "stdbuf -oL -e0 " + sys.path[0] + "/../" + data.scenario['executable']
     command += " " + data.scenario['instance-command']
     command += " " + instanceName
     if data.scenario['seed-command'] != "":

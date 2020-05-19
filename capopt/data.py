@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import os
+import sys
 import datetime
 import time
 from ast import literal_eval
@@ -222,7 +223,7 @@ class Data:
 
     def readParameter(self, key, type, default):
         result = None
-        paramFile = open("parameters-capopt.txt", "r")
+        paramFile = open(sys.path[0] + "/../parameters-capopt.txt", "r")
         for line in paramFile.readlines():
             line = line.replace("\n", "").strip()
             if line != "" and line[0] != "#":
