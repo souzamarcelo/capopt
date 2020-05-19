@@ -71,7 +71,7 @@ To use *capopt* with the irace configurator, follow the steps below:
 
 3. Configure the parameter settings of *capopt*.
    + Create a file named `parameters-capopt.txt` in the project directory.
-   + Copy the content of [this file][default-parameters-capopt] and set the corresponding information (make sure to uncomment the properties you set).
+   + Copy the content of [this file](https://capopt.github.io/assets/files/parameters-capopt.txt) and set the corresponding information (make sure to uncomment the properties you set).
 
 4. Configure irace to call capopt as target runner.
    + Include `targetRunner = "./capopt/capopt.py"` in the `scenario.txt` file.
@@ -168,5 +168,4 @@ For any question or suggestion please contact [Marcelo de Souza][marcelo] (marce
 [irace]: http://iridia.ulb.ac.be/irace
 [rpy2]: https://rpy2.github.io
 [psutil]: https://psutil.readthedocs.io/en/latest
-[default-parameters-capopt]: assets/files/parameters-capopt.txt
 [example-acotsp]: https://github.com/capopt/capopt/tree/master/examples/acotsp
