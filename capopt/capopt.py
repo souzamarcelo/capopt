@@ -45,7 +45,7 @@ def main():
     if data.scenario['fixed-params'] != "":
         command += " " + data.scenario['fixed-params']    
     command += " " + data.execution['candidate-desc']
-    
+
     runAlgorithm(command)
 
 
@@ -67,7 +67,7 @@ def runAlgorithm(command):
         output = readOutput.readlines()
         point = None
         if len(output) > 0:
-            point = parseOutput(output, time.time() - startTime)
+            point = parseOutput(output, time.time() - startTime, readOutput)
             if point is not None:
                 trajectory.addPoint(point, data.scenario['effort-limit'])
         executionEffort = max(executionEffort, (time.time() - startTime if data.scenario['effort-type'] == "time" else point.effort if point is not None else trajectory.getLastEffort() if not trajectory.isEmpty() else 0))
@@ -87,7 +87,7 @@ def runAlgorithm(command):
     if status == 0:
         output = readOutput.readlines()
         if len(output) > 0:
-            point = parseOutput(output, time.time() - startTime)
+            point = parseOutput(output, time.time() - startTime, readOutput)
             if point is not None:
                 trajectory.addPoint(point, data.scenario['effort-limit'])
                 executionEffort = point.effort
@@ -124,7 +124,12 @@ def killProcess(pid):
         pass
 
 
-def parseOutput(output, elapsedTime):
+def parseOutput(output, elapsedTime, readOutput):
+    return defaultParseOutput(output, elapsedTime)
+    #return spearParseOutput(readOutput)
+
+
+def defaultParseOutput(output, elapsedTime):
     isTime = (data.scenario['effort-type'] == "time")
     index = len(output)
     valid = False
@@ -147,6 +152,18 @@ def parseOutput(output, elapsedTime):
     
     point = Point(pEffort, pValue)
     return point
+
+
+def spearParseOutput(readOutput):
+    readOutput.seek(0)
+    content = readOutput.read()
+    if "runtime" in content:
+        if "UNKNOWN" in content:
+            return Point(1000, 1000)
+        else:
+            runtime = float(content[content.index('runtime') + 8 : content.index('[s]') - 1])
+            return Point(runtime, runtime)
+    return None
 
 
 def checkOutput(output, isTime):

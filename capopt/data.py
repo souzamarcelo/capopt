@@ -237,7 +237,7 @@ class Data:
         if result.upper() == "FALSE": return False
         if type == "int": return int(result)
         if type == "float": return float(result)
-        return result.lower()
+        return result.lower() if key != "executable" else result
 
 
     def cleanInstance(self, instance):
