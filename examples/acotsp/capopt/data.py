@@ -72,7 +72,7 @@ class Data:
             for item in executionAttributes:
                 header += item['name'] + ";"
             header = header[:-1] + "\n"
-            dataFile = open("data.txt", "a")
+            dataFile = open("data.txt", "w")
             dataFile.write(header)
             dataFile.close()
 
@@ -237,7 +237,7 @@ class Data:
         if result.upper() == "FALSE": return False
         if type == "int": return int(result)
         if type == "float": return float(result)
-        return result.lower()
+        return result.lower() if key != "executable" else result
 
 
     def cleanInstance(self, instance):
@@ -260,5 +260,5 @@ class Data:
             content = line.split(':')
             if content[0] == instanceName:
                 return int(content[1])
-        print('Dynamic effort not found!')
+        print('Dynamic effort (file effort.txt) not found!')
         exit(1)

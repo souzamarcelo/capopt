@@ -18,7 +18,7 @@ def main():
     global capping, data
     
     candidateId = int(sys.argv[1])
-    instanceId = int(sys.argv[2])
+    instanceId = sys.argv[2]
     seed = int(sys.argv[3])
     instanceName = sys.argv[4]
     candidateDescList = sys.argv[5:]
@@ -30,7 +30,7 @@ def main():
     
     data = Data(candidateId, candidateDesc, instanceId, instanceName, seed)
     
-    if data.scenario['capping']:
+    if data.scenario['capping'] and "t" not in instanceId:
         capping = Capping(data)
     
     command = "stdbuf -oL -e0 " + sys.path[0] + "/../" + data.scenario['executable']
