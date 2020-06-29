@@ -181,6 +181,6 @@ def checkOutput(output, isTime):
 
 if __name__ == "__main__":
     if len(sys.argv) < 6:
-        print("Usage: python target-runner.py <candidateId> <instanceId> <seed> <instance> <candParams>")
+        print("Usage: python capopt.py <candidateId> <instanceId> <seed> <instance> <candParams>")
         exit(1)
     main()
