@@ -241,7 +241,7 @@ class Data:
 
 
     def cleanInstance(self, instance):
-        return instance[instance.rindex("/") + 1:instance.rindex(".")]
+        return instance[instance.rindex("/") + 1:instance.rindex(".") if "." in instance else len(instance)]
 
     
     def isfloat(self, str):
