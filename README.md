@@ -100,7 +100,7 @@ To use *capopt* with the irace configurator, set the project directory according
 
 ### Automatic configuration of ACOTSP
 
-The project directory downloaded [here][example-acotsp], containing the following content:
+The project directory can be downloaded [here][example-acotsp], containing the following content:
 + `capopt` folder;
 + `instances` folder;
 + `src-acotsp` folder with the source code of ACOTSP;
@@ -165,7 +165,7 @@ For any question or suggestion please contact [Marcelo de Souza][marcelo] (marce
 [marcelo]: https://souzamarcelo.github.io
 [marcus]: https://www.inf.ufrgs.br/~mrpritt
 [manuel]: http://lopez-ibanez.eu
-[capopt]: https://github.com/capopt/capopt
+[capopt]: https://github.com/souzamarcelo/capopt
 [python]: https://www.python.org
 [r]: https://www.r-project.org
 [irace]: http://iridia.ulb.ac.be/irace
