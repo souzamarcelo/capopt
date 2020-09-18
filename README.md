@@ -39,7 +39,7 @@ The *capopt* program is written in [Python 3][python], and uses the following no
 + [psutil][psutil]
 + [rpy2][rpy2]
 
-If you are using *capopt* with irace, you will need to install the [R software environment][r] and the [irace package][irace].
+If you are using *capopt* with irace, you need to install the [R software environment][r] and the [irace package][irace].
 
 ***
 
@@ -65,7 +65,7 @@ To use *capopt* with the irace configurator, set the project directory according
      + In case of using time as effort measure, *capopt* manages the execution time externaly and expects to read only the solution cost (e.g. "1673.44").
      + In case of using another effort measure, *capopt* expects to read the effort and the solution cost separated by a whitespace (e.g. "493 1673.44").
 
-6. **Done!** You can now run irace with *capopt*. You should have a project directory with (at least) the following content:
+6. **Done!** You can now run irace with *capopt*. In summary, you should have a project directory with (at least) the following content:
    + `capopt`: folder containing *capopt*.
    + `instances`: folder containing the training instances.
    + `algorithm`: the target algorithm executable.
@@ -75,13 +75,11 @@ To use *capopt* with the irace configurator, set the project directory according
 
 **Important:**
    + The target algorithm must periodically output the cost of the best found solution. This is the only requirement to use *capopt*.
-   + In case of difficulties, check the example below, the complete [documentation](https://capopt.github.io/docs), or [contact us](#support).
+   + In case of difficulties, check the example below or contact us (marcelo.desouza@udesc.br).
 
 ***
 
-## Example
-
-### Automatic configuration of ACOTSP
+## Example (ACOTSP)
 
 [This directory][example-acotsp] contains the files for using capping to configure ACOTSP:
 + `capopt` folder;
@@ -94,7 +92,7 @@ To use *capopt* with the irace configurator, set the project directory according
 
 The content of `parameters-capopt.txt` is given below. Note that the target algorithm is called using `./acotsp`, and always giving the fixed fixed parameters `-r 1 --quiet`. The instance, seed and effort limit are identified by the commands `-i`, `--seed`,  `-t`, respectively. We are using the running time as effort measure and 20 seconds as effort limit. We are also using the area-based adaptive capping method, with best-so-far penalty strategy and parameters a<sub>g</sub>= 0.4 and &epsilon; = 0.05.
 
-#### parameters-capopt.txt
+**parameters-capopt.txt**
 ```
 executable: ./acotsp
 fixed-params: -r 1 --quiet
@@ -113,7 +111,7 @@ epsilon: 0.05
 
 The content of `scenario.txt` is given below. The file indicates the parameters definition, execution directory, training instances directory, configuration budget, and the number of digits for real parameters. The last line defined the target runner, which is the *capopt* script.
 
-#### scenario.txt
+**scenario.txt**
 ```
 parameterFile = "./parameters-acotsp.txt"
 execDir = "."
