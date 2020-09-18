@@ -1,7 +1,7 @@
 # capopt
 **Capping Methods for the Automatic Configuration of Optimization Algorithms**
 
-The main objective of *capopt* is to speed up the automatic configuration of optimization algorithms. It implements several capping methods for optimization scenarios. These methods use the performance of previously seen executions to determine a performance envelope, which is used to evaluate how good a new configuration is during its execution. If a poorly performing configuration is identified, *capopt* stops the execution and returns a penalized result value.
+The *capopt* program implements several capping methods to speed up the automatic configuration of optimization algorithms. These methods use the performance of previously seen executions to determine a performance envelope, which is used to evaluate how good a new configuration is during its execution. If a poorly performing configuration is identified, *capopt* stops the execution and returns a penalized result value.
 
 The following article describes *capopt* in detail and presents an extensive experimental evaluation. You can also check its [supplementary page](https://capopt.github.io/suppcor) for further experimental details.
 
@@ -82,7 +82,7 @@ To use *capopt* with the irace configurator, set the project directory according
 
 ### Automatic configuration of ACOTSP
 
-The project directory can be downloaded [here][example-acotsp], containing the following content:
+[This directory][example-acotsp] contains the files for using capping to configure ACOTSP:
 + `capopt` folder;
 + `instances` folder;
 + `src-acotsp` folder with the source code of ACOTSP;
@@ -91,7 +91,7 @@ The project directory can be downloaded [here][example-acotsp], containing the f
 + `parameters-capopt.txt` file;
 + `scenario.txt` file.
 
-The content of `parameters-capopt.txt` is given below. Note that the target algorithm is called using `./acotsp`, and always giving the fixed fixed parameters `-r 1 --quiet`. The instance, seed and effort limit are identified by the commands `-i`, `--seed`,  `-t`, respectively. We are using the running time as effort measure and 20 sec. as effort limit. We are also using the area-based adaptive capping method, with best-so-far penalty strategy and parameters a<sub>g</sub>= 0.4 and &epsilon; = 0.05.
+The content of `parameters-capopt.txt` is given below. Note that the target algorithm is called using `./acotsp`, and always giving the fixed fixed parameters `-r 1 --quiet`. The instance, seed and effort limit are identified by the commands `-i`, `--seed`,  `-t`, respectively. We are using the running time as effort measure and 20 seconds as effort limit. We are also using the area-based adaptive capping method, with best-so-far penalty strategy and parameters a<sub>g</sub>= 0.4 and &epsilon; = 0.05.
 
 #### parameters-capopt.txt
 ```
@@ -110,7 +110,7 @@ ag: 0.4
 epsilon: 0.05
 ```
 
-The content of `scenario.txt` is given below. The file indicates the parameters definition, execution directory, training instances directory, configuration budget, and the number of digits for real parameters. The last lilne defined the target runner, which is the *capopt* script.
+The content of `scenario.txt` is given below. The file indicates the parameters definition, execution directory, training instances directory, configuration budget, and the number of digits for real parameters. The last line defined the target runner, which is the *capopt* script.
 
 #### scenario.txt
 ```
