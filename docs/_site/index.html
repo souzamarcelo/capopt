@@ -2,10 +2,12 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>capopt</title>
+    <title>The capopt program</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="/assets/css/style-main.css">
+    <link rel="stylesheet" href="/test/assets/css/style-main.css">
     
+    <!--<link rel="stylesheet" href="/assets/css/style-main.css">
+    -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
 
@@ -13,20 +15,20 @@
     <div class="container">
         <h1 id="capopt-capping-methods-for-the-automatic-configuration-of-optimization-algorithms">capopt: Capping Methods for the Automatic Configuration of Optimization Algorithms</h1>
 
-<p>Welcome to the <em>capopt</em> project website!<br />
+<p>Welcome to the <em>capopt</em> project website! Check our <a href="https://github.com/souzamarcelo/capopt" target="_blank">GitHub repository</a>.<br />
 <a href="#people">people</a> |
-<a href="#download">download</a> |
+<a href="#dependencies">dependencies</a> |
 <a href="#getting-started">getting started</a> |
 <a href="#example">example</a> |
-<a href="#license">license</a> |
-<a href="#support">support</a> |
-<a href="docs">documentation</a></p>
+<a href="#license">license</a></p>
 
 <hr />
 
-<p>The main objective of <em>capopt</em> is to speed up the automatic configuration of optimization algorithms. It implements several capping methods for optimization scenarios. These methods use the performance of previously seen executions to determine a performance envelope, which is used to evaluate how good a new configuration is during its execution. If a poorly performing configuration is identified, <em>capopt</em> stops the execution and returns a penalized result value.</p>
+<p>The capopt program implements several capping methods to speed up the automatic configuration of optimization algorithms. These methods use the performance of previously seen executions to determine a performance envelope, which is used to evaluate how good a new configuration is during its execution. If a poorly performing configuration is identified, capopt stops the execution and returns a penalized result value.</p>
 
-<p>The following article describes <em>capopt</em> in detail and present an extensive experimental evaluation. You can also check its <a href="suppcor" target="_blank">supplementary page</a> for further experimental details.</p>
+<p><strong><span style="background-color:#D2E9DA">Download <em>capopt</em> from our <a href="https://github.com/souzamarcelo/capopt" target="_blank">GitHub repository</a>!</span></strong></p>
+
+<p>The following article describes <em>capopt</em> in detail and presents an extensive experimental evaluation. You can also check its <a href="suppcor" target="_blank">supplementary page</a> for further experimental details.</p>
 
 <blockquote>
   <p><strong>Capping Strategies for the Automatic Configuration of Optimization Algorithms</strong><br />
@@ -38,7 +40,7 @@ Submitted to Computers &amp; Operations Research, 2020.<br />
 <h4 id="bibtex">Bibtex</h4>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@article{DeSouzaEtAl2020,
    title   = {Capping Strategies for the Automatic Configuration of Optimization Algorithms},
-   author  = {de Souza, Marcelo and Ritt, Marcus and L{\'o}pez-Ib{\'a}{\~n}ez, Manuel},
+   author  = {Souza, Marcelo and Ritt, Marcus and L{\'o}pez-Ib{\'a}{\~n}ez, Manuel},
    journal = {Submitted to Computers \&amp; Operations Research},
    year    = {2020}
 }
@@ -54,24 +56,25 @@ Submitted to Computers &amp; Operations Research, 2020.<br />
 
 <p><strong>Collaborators:</strong> <a href="https://www.inf.ufrgs.br/~mrpritt" target="_blank">Marcus Ritt</a> and <a href="http://lopez-ibanez.eu" target="_blank">Manuel López-Ibáñez</a></p>
 
-<p><strong>Contact:</strong> marcelo.desouza [at] udesc.br</p>
+<p><strong>Contact:</strong> <a href="mailto:marcelo.desouza@udesc.br">marcelo.desouza@udesc.br</a> (feel free to contact us for any question or suggestion).</p>
 
 <hr />
 
-<h2 id="download">Download</h2>
+<h2 id="dependencies">Dependencies</h2>
 
-<p>You can download <em>capopt</em> from our <a href="https://github.com/capopt/capopt" target="_blank">GitHub repository</a>.</p>
-
-<h3 id="dependencies">Dependencies</h3>
-
-<p><em>capopt</em> is written in <a href="https://www.python.org" target="_blank">Python 3</a>, and uses the following non-standard libraries:</p>
+<p>The <em>capopt</em> program is written in <a href="https://www.python.org">Python 3</a>, and uses the following non-standard libraries:</p>
 
 <ul>
-  <li><a href="https://psutil.readthedocs.io/en/latest" target="_blank">psutil</a></li>
-  <li><a href="https://rpy2.github.io" target="_blank">rpy2</a></li>
+  <li><a href="https://psutil.readthedocs.io/en/latest">psutil</a></li>
+  <li><a href="https://rpy2.github.io">rpy2</a></li>
 </ul>
 
-<p>If you are using <em>capopt</em> with irace, you will need to install the <a href="https://www.r-project.org" target="_blank">R software environment</a> and the <a href="http://iridia.ulb.ac.be/irace" target="_blank">irace package</a>.</p>
+<p>If you are using <em>capopt</em> with irace, you need to install:</p>
+
+<ul>
+  <li><a href="https://www.r-project.org">R software environment</a></li>
+  <li><a href="http://iridia.ulb.ac.be/irace">irace package</a>.</li>
+</ul>
 
 <hr />
 
@@ -81,7 +84,7 @@ Submitted to Computers &amp; Operations Research, 2020.<br />
 
 <ol>
   <li>
-    <p><a href="https://github.com/capopt/capopt" target="_blank">Download <em>capopt</em></a>.
+    <p><a href="https://github.com/souzamarcelo/capopt" target="_blank">Download <em>capopt</em></a>.
 <br /><br /></p>
   </li>
   <li>Copy the source code (<code class="highlighter-rouge">capopt</code> folder) to the project directory.
@@ -93,7 +96,7 @@ Submitted to Computers &amp; Operations Research, 2020.<br />
   <li>Configure the parameter settings of <em>capopt</em>.
     <ul>
       <li>Create a file named <code class="highlighter-rouge">parameters-capopt.txt</code> in the project directory.</li>
-      <li>Copy the content of <a href="assets/files/parameters-capopt.txt" target="_blank">this file</a> and set the corresponding information (make sure to uncomment the properties you set).
+      <li>Copy the content of <a href="https://github.com/souzamarcelo/capopt/blob/master/examples/parameters-capopt.txt" target="_blank">this file</a> and set the corresponding information (make sure to uncomment the properties you set).
 <br /><br /></li>
     </ul>
   </li>
@@ -130,16 +133,16 @@ Submitted to Computers &amp; Operations Research, 2020.<br />
 <p><strong>Important:</strong></p>
 <ul>
   <li>The target algorithm must periodically output the cost of the best found solution. This is the only requirement to use <em>capopt</em>.</li>
-  <li>In case of difficulties, check the example below, the complete <a href="docs" target="_blank">documentation</a>, or <a href="#support">contact us</a>.</li>
+  <li>In case of difficulties, check the example below or contact us (marcelo.desouza@udesc.br).</li>
 </ul>
 
 <hr />
 
 <h2 id="example">Example</h2>
 
-<h3 id="automatic-configuration-of-acotsp">Automatic configuration of ACOTSP</h3>
+<p><strong>ACOTSP</strong></p>
 
-<p>The project directory downloaded <a href="https://github.com/capopt/capopt/tree/master/examples/acotsp" target="_blank">here</a>, containing the following content:</p>
+<p><a href="https://github.com/capopt/capopt/tree/master/examples/acotsp" target="_blank">This directory</a> contains the files for using capping to configure ACOTSP:</p>
 <ul>
   <li><code class="highlighter-rouge">capopt</code> folder;</li>
   <li><code class="highlighter-rouge">instances</code> folder;</li>
@@ -200,12 +203,7 @@ targetRunner = "./capopt/capopt.py"
   <li>Marcelo de Souza, Marcus Ritt, and Manuel López-Ibáñez. Capping Strategies for the Automatic Configuration of Optimization Algorithms. Submitted to Computers &amp; Operations Research, 2020.</li>
 </ul>
 
-<hr />
-
-<h2 id="support">Support</h2>
-
-<p>For any question or suggestion please contact <a href="https://souzamarcelo.github.io" target="_blank">Marcelo de Souza</a> (marcelo.desouza [at] udesc.br).
-<br /><br /></p>
+<p><br /><br /></p>
 
 
     </div>

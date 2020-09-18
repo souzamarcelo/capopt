@@ -1,24 +1,24 @@
 ---
 layout: template
-title: capopt
+title: The capopt program
 ---
 
 # capopt: Capping Methods for the Automatic Configuration of Optimization Algorithms
 
 Welcome to the *capopt* project website! Check our [GitHub repository][capopt]{:target="_blank"}.<br>
 [people](#people) |
-[download](#download) |
+[dependencies](#dependencies) |
 [getting started](#getting-started) |
 [example](#example) |
-[license](#license) |
-[support](#support) |
-[documentation](docs){:target="_blank"}
+[license](#license)
 
 ***
 
-The main objective of *capopt* is to speed up the automatic configuration of optimization algorithms. It implements several capping methods for optimization scenarios. These methods use the performance of previously seen executions to determine a performance envelope, which is used to evaluate how good a new configuration is during its execution. If a poorly performing configuration is identified, *capopt* stops the execution and returns a penalized result value.
+The capopt program implements several capping methods to speed up the automatic configuration of optimization algorithms. These methods use the performance of previously seen executions to determine a performance envelope, which is used to evaluate how good a new configuration is during its execution. If a poorly performing configuration is identified, capopt stops the execution and returns a penalized result value.
 
-The following article describes *capopt* in detail and present an extensive experimental evaluation. You can also check its [supplementary page](suppcor){:target="_blank"} for further experimental details.
+**<span style="background-color:#D2E9DA">Download *capopt* from our [GitHub repository][capopt]{:target="_blank"}!</span>**
+
+The following article describes *capopt* in detail and presents an extensive experimental evaluation. You can also check its [supplementary page](suppcor){:target="_blank"} for further experimental details.
 
 > **Capping Strategies for the Automatic Configuration of Optimization Algorithms**<br>
 > Marcelo de Souza, Marcus Ritt, and Manuel López-Ibáñez<br>
@@ -29,7 +29,7 @@ The following article describes *capopt* in detail and present an extensive expe
 ```
 @article{DeSouzaEtAl2020,
    title   = {Capping Strategies for the Automatic Configuration of Optimization Algorithms},
-   author  = {de Souza, Marcelo and Ritt, Marcus and L{\'o}pez-Ib{\'a}{\~n}ez, Manuel},
+   author  = {Souza, Marcelo and Ritt, Marcus and L{\'o}pez-Ib{\'a}{\~n}ez, Manuel},
    journal = {Submitted to Computers \& Operations Research},
    year    = {2020}
 }
@@ -45,23 +45,21 @@ Please, make sure to reference us if you use *capopt* in your research.
 
 **Collaborators:** [Marcus Ritt][marcus]{:target="_blank"} and [Manuel López-Ibáñez][manuel]{:target="_blank"}
 
-**Contact:** marcelo.desouza [at] udesc.br
+**Contact:** [marcelo.desouza@udesc.br](mailto:marcelo.desouza@udesc.br) (feel free to contact us for any question or suggestion).
 
 ***
 
-## Download
+## Dependencies
 
-You can download *capopt* from our [GitHub repository][capopt]{:target="_blank"}. 
+The *capopt* program is written in [Python 3][python], and uses the following non-standard libraries:
 
-### Dependencies
++ [psutil][psutil]
++ [rpy2][rpy2]
 
-*capopt* is written in [Python 3][python]{:target="_blank"}, and uses the following non-standard libraries:
+If you are using *capopt* with irace, you need to install:
 
-+ [psutil][psutil]{:target="_blank"}
-+ [rpy2][rpy2]{:target="_blank"}
-
-If you are using *capopt* with irace, you will need to install the [R software environment][r]{:target="_blank"} and the [irace package][irace]{:target="_blank"}.
-
++ [R software environment][r]
++ [irace package][irace].
 
 ***
 
@@ -102,15 +100,15 @@ To use *capopt* with the irace configurator, set the project directory according
 
 **Important:**
    + The target algorithm must periodically output the cost of the best found solution. This is the only requirement to use *capopt*.
-   + In case of difficulties, check the example below, the complete [documentation](docs){:target="_blank"}, or [contact us](#support).
+   + In case of difficulties, check the example below or contact us (marcelo.desouza@udesc.br).
 
 ***
 
 ## Example
 
-### Automatic configuration of ACOTSP
+**ACOTSP**
 
-The project directory can be downloaded [here][example-acotsp]{:target="_blank"}, containing the following content:
+[This directory][example-acotsp]{:target="_blank"} contains the files for using capping to configure ACOTSP:
 + `capopt` folder;
 + `instances` folder;
 + `src-acotsp` folder with the source code of ACOTSP;
@@ -166,11 +164,6 @@ IMPORTANT NOTE: Please be aware that the fact that this program is released as F
 
 + Marcelo de Souza, Marcus Ritt, and Manuel López-Ibáñez. Capping Strategies for the Automatic Configuration of Optimization Algorithms. Submitted to Computers & Operations Research, 2020.
 
-***
-
-## Support
-
-For any question or suggestion please contact [Marcelo de Souza][marcelo]{:target="_blank"} (marcelo.desouza [at] udesc.br).
 <br><br>
 
 [marcelo]: https://souzamarcelo.github.io
@@ -182,6 +175,6 @@ For any question or suggestion please contact [Marcelo de Souza][marcelo]{:targe
 [irace]: http://iridia.ulb.ac.be/irace
 [rpy2]: https://rpy2.github.io
 [psutil]: https://psutil.readthedocs.io/en/latest
-[default-parameters-capopt]: assets/files/parameters-capopt.txt
+[default-parameters-capopt]: https://github.com/souzamarcelo/capopt/blob/master/examples/parameters-capopt.txt
 [example-acotsp]: https://github.com/capopt/capopt/tree/master/examples/acotsp
 [iracedoc]: https://cran.r-project.org/web/packages/irace/vignettes/irace-package.pdf
