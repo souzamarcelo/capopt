@@ -9,7 +9,7 @@ The following article describes *capopt* in detail and presents an extensive exp
 [preprint will be available soon | [supplementary page](https://capopt.github.io/suppcor)]
 
 #### Bibtex
-```
+```bibtex
 @article{DeSouzaEtAl2020,
    title   = {Capping Strategies for the Automatic Configuration of Optimization Algorithms},
    author  = {Souza, Marcelo and Ritt, Marcus and L{\'o}pez-Ib{\'a}{\~n}ez, Manuel},
