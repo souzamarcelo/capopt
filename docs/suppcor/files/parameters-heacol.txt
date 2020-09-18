@@ -1,0 +1,9 @@
+### Parameter file for the HYBRID-EA COLORING software
+# name              switch  type    values
+iterationsTs        "-I "   i       (1, 1000)
+populationSize      "-p "   i       (2, 1000)
+construction        "-a "   c       (1, 2)
+crossover           "-x "   c       (1, 2, 3, 4, 5)
+tenureInitialValue  "-t "   i       (1, 1000)
+tenureMultiplier    "-m "   r       (0.0, 1.0)
+tenureRandRange     "-c "   i       (1, 1000)

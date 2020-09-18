@@ -1,0 +1,54 @@
+# Command used to execute the target algorithm [required]
+executable: ./algorithm
+
+# Some fixed parameters [optional]
+fixed-params: --quiet --output text
+
+# Command used to set the input instance [optional]
+# If not set, capopt will send the instance as first argument when calling the target algorithm
+instance-command: -i
+
+# Command used to set the random seed [optional]
+seed-command: --seed
+
+# Command used to set the effort limit [optional]
+effort-limit-command: -t
+
+# Effort limit [required when using capping, default: 60]
+effort-limit: 20
+
+# Type of effort [required when using capping, default: time, values: time, other]
+effort-type: time
+
+# Type of budget used in irace [optional, default: executions, values: executions, timeout]
+budget-type: executions
+
+# Enables capping [required, default: True, values: True, False]
+capping: True
+
+# Penalty strategy [required when using capping, default: best-so-far, values: best-so-far, biggest]
+penalty: best-so-far
+
+# Envelope type [required when using capping, default: profile, values: profile, area]
+envelope: area
+
+# Strategy [required when using capping, default: elitist, values: elitist, adaptive]
+strategy: adaptive
+
+# Aggressiveness goal [required when using adaptive strategy, default: 0.5, values: [0, 1]]
+ag: 0.4
+
+# Tolerance of deviation [required when using adaptive strategy, default: 0.05, values: [0, 1]]
+epsilon: 0.05
+
+# Aggregation of replications [required when using elitist strategy, default: worst, values: worst, best, exp]
+ar: worst
+
+# Aggregation of configurations [required when using elitist strategy, default: worst, values: worst, best]
+ac: best
+
+# Aggressiveness of the exponential model [required when using ar = exp, default: 0.1, values: [0, 1]]
+p: 0.3
+
+# Penalty constant of the exponential model [required when using ar = exp, default: 10, values: [1, inf)]
+alpha: 10

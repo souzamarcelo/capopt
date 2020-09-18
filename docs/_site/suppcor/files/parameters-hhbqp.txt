@@ -1,0 +1,16 @@
+### Parameter file for the HHBQP software
+# name          switch              type    values              [conditions (using R syntax)]
+pT              "--pT "             c       (1, 2, 3, 4, 5)
+pTv             "--pTv "            i       (1, 50)             | pT == 1
+pTp             "--pTp "            i       (10, 80)            | pT == 2
+pTd             "--pTd "            i       (2, 500)            | pT %in% c(3, 4)
+pTc             "--pTc "            i       (1, 100)            | pT == 4
+pS              "--pS "             c       (1, 2)
+pSv             "--pSv "            i       (500, 100000)       | pS == 1
+pSm             "--pSm "            i       (1, 100)            | pS == 2
+pI              "--pI "             c       (1, 2)
+pIv             "--pIv "            i       (1000, 50000)       | pI == 1
+pG              "--pG "             i       (2, 100)
+pB              "--pB "             i       (1, 20)
+pE              "--pE "             i       (1, 20)
+pGamma          "--pGamma "         r       (0.1, 0.5)
