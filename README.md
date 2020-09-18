@@ -39,7 +39,10 @@ The *capopt* program is written in [Python 3][python], and uses the following no
 + [psutil][psutil]
 + [rpy2][rpy2]
 
-If you are using *capopt* with irace, you need to install the [R software environment][r] and the [irace package][irace].
+If you are using *capopt* with irace, you need to install:
+
++ [R software environment][r]
++ [irace package][irace].
 
 ***
 
