@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 import sys
 import os
 import shutil
@@ -126,6 +126,7 @@ def killProcess(pid):
 
 def parseOutput(output, elapsedTime, readOutput):
     return defaultParseOutput(output, elapsedTime)
+    #return scipParseOutput(output, elapsedTime)
     #return spearParseOutput(readOutput)
 
 
@@ -164,6 +165,17 @@ def spearParseOutput(readOutput):
             runtime = float(content[content.index('runtime') + 8 : content.index('[s]') - 1])
             return Point(runtime, runtime)
     return None
+
+
+def scipParseOutput(readOutput, elapsedTime):
+    point = None
+    for line in readOutput:
+        if 's|' in line:
+            line = line.replace('\n', '').strip()
+            value = float(line.split('|')[1])
+            value = value * -1
+            point = Point(elapsedTime, value)
+    return point
 
 
 def checkOutput(output, isTime):
