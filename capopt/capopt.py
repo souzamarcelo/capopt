@@ -73,12 +73,18 @@ def runAlgorithm(command):
         executionEffort = max(executionEffort, (time.time() - startTime if data.scenario['effort-type'] == "time" else point.effort if point is not None else trajectory.getLastEffort() if not trajectory.isEmpty() else 0))
         executionEffort = min(executionEffort, data.scenario['effort-limit'])
 
+        if data.scenario['external-halt'] and executionEffort == data.scenario['effort-limit']:
+            killProcess(process.pid)
+            status = 0
+            break
+
         if data.scenario['capping']:
             if capping.cap(executionEffort, trajectory):
                 trajectory.addCappedPoint(Point(min(data.scenario['effort-limit'], executionEffort), trajectory.getResult()))
                 killProcess(process.pid)
                 status = 11
                 break
+
         if data.scenario['effort-type'] == "time": time.sleep(0.5)
 
     if status is None:
@@ -128,6 +134,7 @@ def parseOutput(output, elapsedTime, readOutput):
     return defaultParseOutput(output, elapsedTime)
     #return scipParseOutput(output, elapsedTime)
     #return spearParseOutput(readOutput)
+    #return lkhParseOutput(readOutput, elapsedTime)
 
 
 def defaultParseOutput(output, elapsedTime):
@@ -176,6 +183,17 @@ def scipParseOutput(readOutput, elapsedTime):
             value = value * -1
             point = Point(elapsedTime, value)
     return point
+
+
+def lkhParseOutput(readOutput, elapsedTime):
+    readOutput.seek(0)
+    output = readOutput.read()
+    content = output.split('\n')
+    for line in reversed(content):
+        if 'Cost = ' in line and 'Time = ' in line:
+            p = Point(elapsedTime, int(line[line.index('Cost = ') + 7: line.index(', Time')]))
+            return p
+    return None
 
 
 def checkOutput(output, isTime):
