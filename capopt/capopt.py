@@ -189,11 +189,11 @@ def lkhParseOutput(readOutput, elapsedTime):
     readOutput.seek(0)
     output = readOutput.read()
     content = output.split('\n')
+    bestSoFar = float('inf')
     for line in reversed(content):
         if 'Cost = ' in line and 'Time = ' in line:
-            p = Point(elapsedTime, int(line[line.index('Cost = ') + 7: line.index(', Time')]))
-            return p
-    return None
+            bestSoFar = min(bestSoFar, int(line[line.index('Cost = ') + 7: line.index(', Time')]))
+    return Point(elapsedTime, bestSoFar) if bestSoFar != float('inf') else None
 
 
 def checkOutput(output, isTime):
