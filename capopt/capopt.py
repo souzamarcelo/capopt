@@ -178,10 +178,11 @@ def scipParseOutput(readOutput, elapsedTime):
     point = None
     for line in readOutput:
         if 's|' in line:
-            line = line.replace('\n', '').strip()
+            line = line.replace('\n', '').replace('*', '').strip()
             value = float(line.split('|')[1])
             value = value * -1
-            point = Point(elapsedTime, value)
+            if point is None or point.value > value:
+                point = Point(round(elapsedTime, 1), value)
     return point
 
 
@@ -193,7 +194,7 @@ def lkhParseOutput(readOutput, elapsedTime):
     for line in reversed(content):
         if 'Cost = ' in line and 'Time = ' in line:
             bestSoFar = min(bestSoFar, int(line[line.index('Cost = ') + 7: line.index(', Time')]))
-    return Point(elapsedTime, bestSoFar) if bestSoFar != float('inf') else None
+    return Point(round(elapsedTime, 1), bestSoFar) if bestSoFar != float('inf') else None
 
 
 def checkOutput(output, isTime):
