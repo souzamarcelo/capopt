@@ -176,14 +176,16 @@ def spearParseOutput(readOutput):
 
 def scipParseOutput(readOutput, elapsedTime):
     point = None
-    for line in readOutput:
-        if 's|' in line:
+    bestValue = float('inf')
+    for line in output:
+        if 's|' in line and '\n' in line:
             line = line.replace('\n', '').replace('*', '').strip()
-            value = float(line.split('|')[1])
-            value = value * -1
-            if point is None or point.value > value:
-                point = Point(round(elapsedTime, 1), value)
-    return point
+            content = line.split('|')
+            if len(content) == 2:
+                value = float(line.split('|')[1])
+                value = value * -1
+                bestValue = min(bestValue, value)
+    return Point(round(elapsedTime, 1), bestValue) if bestValue != float('inf') else None
 
 
 def lkhParseOutput(readOutput, elapsedTime):
