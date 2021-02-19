@@ -1,11 +1,13 @@
 # capopt
 **Capping Methods for the Automatic Configuration of Optimization Algorithms**
-
+<br>
 [people](#people) |
 [dependencies](#dependencies) |
 [getting started](#getting-started) |
 [example](#example) |
 [license](#license)
+
+<br>
 
 The *capopt* program implements several capping methods to speed up the automatic configuration of optimization algorithms. These methods use the performance of previously seen executions to determine a performance envelope, which is used to evaluate how good a new configuration is during its execution. If a poorly performing configuration is identified, *capopt* stops the execution and returns a penalized result value.
 
@@ -90,7 +92,7 @@ To use *capopt* with the irace configurator, set the project directory according
 
 ## Example (ACOTSP)
 
-[This directory](examples/acotsp) contains the files for using capping to configure ACOTSP:
+The [examples/acotsp](examples/acotsp) directory contains the files for using capping to configure ACOTSP:
 + `capopt` folder;
 + `instances` folder;
 + `src-acotsp` folder with the source code of ACOTSP;
