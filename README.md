@@ -136,9 +136,9 @@ targetRunner = "./capopt/capopt.py"
 
 ## License
 
-(Please, check our LICENSE file.)
+(Please, check our [LICENSE](LICENSE) file.)
 
-This software is Copyright (C) 2020 Marcelo de Souza.
+This software is Copyright (C) 2020-2021 Marcelo de Souza.
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
