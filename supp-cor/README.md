@@ -1,7 +1,7 @@
 Supplementary material to the paper:
 
 <div class="border">
-<span class="text-green mb-2 ml-4">**Capping Methods for the Automatic Configuration of Optimization Algorithms**</span><br>
+<div class="text-green">**Capping Methods for the Automatic Configuration of Optimization Algorithms**</div>
 [Marcelo de Souza][marcelo], [Marcus Ritt][marcus] and [Manuel López-Ibáñez][manuel]<br>
 Computers & Operations Research, 2021
 </div>
