@@ -1,8 +1,10 @@
 Supplementary material to the paper:
 
-**Capping Methods for the Automatic Configuration of Optimization Algorithms**<br>
+<div class="border">
+<span class="text-green mb-2 ml-4">**Capping Methods for the Automatic Configuration of Optimization Algorithms**</span><br>
 [Marcelo de Souza][marcelo], [Marcus Ritt][marcus] and [Manuel López-Ibáñez][manuel]<br>
 Computers & Operations Research, 2021
+</div>
 
 ### Abstract
 Automatic configuration techniques are widely and successfully used to find good parameter settings for parameterized algorithms. Configuration is costly, because it is necessary to evaluate many configurations on different instances. For decision problems, when the objective is to minimize the running time of the algorithm, many configurators implement capping methods to discard poor configurations early. Such methods are not directly applicable to optimization problems, when the objective is to optimize the cost of the best solution found, given a predefined running time limit. We propose new capping methods for the automatic configuration of optimization algorithms. They use the previous executions to determine a performance envelope, which is used to evaluate new executions and cap those that do not satisfy the envelope conditions. We integrate the capping methods into the irace configurator and evaluate them on different optimization scenarios. Our results show that the proposed methods can save from about 5% to 80% of the configuration effort, while finding configurations of the same quality. Based on the computational analysis, we identify two conservative methods, that save an average of about 20% of the configuration effort and never found significantly worse configurations than those obtained without capping on all tested problems. We also provide evidence that capping can help to better use the available budget in scenarios with a configuration time limit.
@@ -21,16 +23,27 @@ All capping methods are implemented in *capopt*. It provides a Python target run
 
 We tested the capping methods in the following scenarios:
 
-+ ACOTSP: ant colony optimization algorithms for the symmetric traveling salesperson problem [1].
-+ HEACOL: hybrid evolutionary algorithm for graph coloring [2].
-+ TSBPP: tabu search for the bin packing problem [3, 4].
-+ HHBQP: hybrid heuristic for unconstrained binary quadratic programming [5].
-+ LKH: a heuristic algorithm for solving the symmetric traveling salesperson problem [6, 7, 8].
-+ SCIP: an exact solver for mixed integer programs for solving the combinatorial auction winner determination problem [9, 10].
++ **ACOTSP:** ant colony optimization algorithms for the symmetric traveling salesperson problem [1].
++ **HEACOL:** hybrid evolutionary algorithm for graph coloring [2].
++ **TSBPP:** tabu search for the bin packing problem [3, 4].
++ **HHBQP:** hybrid heuristic for unconstrained binary quadratic programming [5].
++ **LKH:** a heuristic algorithm for solving the symmetric traveling salesperson problem [6, 7, 8].
++ **SCIP:** an exact solver for mixed integer programs for solving the combinatorial auction winner determination problem [9, 10].
 
-Below you find all files to replicate our experiments:
+Each configuration scenario contains:
++ source code of the target algorithm;
++ parameters file;
++ training instances;
++ test instances;
++ best known values file;
++ parameters of *capopt* file;
++ irace scenario file.
 
-| Scenario | Source code&nbsp;<sup>A,&nbsp;B</sup>      | Parameters                                            | Train instances                                    | Test instances                                   | Best known values                              | Param. target runner&nbsp;<sup>3c</sup>                                 | Scenario file&nbsp;<sup>D</sup>                                | Cut-off effort          | Budget (execs) | Budget (time) |
+Below you find all files for each configuration scenario:
+
+
+
+| Scenario | Source code&nbsp;<sup>A,&nbsp;B</sup>      | Parameters                                            | Train instances                                    | Test instances                                   | Best known values                              | Param. target runner&nbsp;<sup>C</sup>                                 | Scenario file&nbsp;<sup>D</sup>                                | Cut-off effort          | Budget (execs) | Budget (time) |
 |----------|--------------------------------------------|-------------------------------------------------------|----------------------------------------------------|--------------------------------------------------|------------------------------------------------|------------------------------------------------------------------------|----------------------------------------------------------|-------------------------|----------------|---------------|
 | ACOTSP   | [acotsp.zip][src-acotsp] | [parameters-acotsp.txt][par-acotsp] | [train-acotsp.zip][train-acotsp] | [test-acotsp.zip][test-acotsp] | [bkv-acotsp.txt][bkv-acotsp] | [parameters-capopt-acotsp.txt][parc-acotsp] | [scenario-acotsp.txt][scenario-acotsp] | 60 sec.                 | 2000           | 21000 sec.    |
 | HEACOL   | [heacol.zip][src-heacol] | [parameters-heacol.txt][par-heacol] | [train-heacol.zip][train-heacol] | [test-heacol.zip][test-heacol] | [bkv-heacol.txt][bkv-heacol] | [parameters-capopt-heacol.txt][parc-heacol] | [scenario-heacol.txt][scenario-heacol] | 10<sup>9</sup> checks   | 2000           | 3200 sec.     |
