@@ -4,20 +4,20 @@ Supplementary material to the paper:
 [Marcelo de Souza][marcelo], [Marcus Ritt][marcus] and [Manuel López-Ibáñez][manuel]<br>
 Computers & Operations Research, 2021
 
-## Abstract
+### Abstract
 Automatic configuration techniques are widely and successfully used to find good parameter settings for parameterized algorithms. Configuration is costly, because it is necessary to evaluate many configurations on different instances. For decision problems, when the objective is to minimize the running time of the algorithm, many configurators implement capping methods to discard poor configurations early. Such methods are not directly applicable to optimization problems, when the objective is to optimize the cost of the best solution found, given a predefined running time limit. We propose new capping methods for the automatic configuration of optimization algorithms. They use the previous executions to determine a performance envelope, which is used to evaluate new executions and cap those that do not satisfy the envelope conditions. We integrate the capping methods into the irace configurator and evaluate them on different optimization scenarios. Our results show that the proposed methods can save from about 5% to 80% of the configuration effort, while finding configurations of the same quality. Based on the computational analysis, we identify two conservative methods, that save an average of about 20% of the configuration effort and never found significantly worse configurations than those obtained without capping on all tested problems. We also provide evidence that capping can help to better use the available budget in scenarios with a configuration time limit.
 
 **Keywords:** automatic algorithm configuration; capping methods; optimization algorithms; parameter tuning
 
 ***
 
-## The *capopt* Package
+### The *capopt* Package
 
 All capping methods are implemented in *capopt*. It provides a Python target runner script that integrates with irace. Please, check all details of how to use it and the latest version of the source code in the [main page](../) of the repository. You can also download the exact version of the source code used in our experiments [here][capopt-download].
 
 ***
 
-## Configuration Scenarios
+### Configuration Scenarios
 
 We tested the capping methods in the following scenarios:
 
@@ -28,9 +28,24 @@ We tested the capping methods in the following scenarios:
 + LKH: a heuristic algorithm for solving the symmetric traveling salesperson problem [6, 7, 8].
 + SCIP: an exact solver for mixed integer programs for solving the combinatorial auction winner determination problem [9, 10].
 
+Below you find all files to replicate our experiments:
+
+| Scenario | Source code&nbsp;<sup>A,&nbsp;B</sup>      | Parameters                                            | Train instances                                    | Test instances                                   | Best known values                              | Param. target runner&nbsp;<sup>3c</sup>                                 | Scenario file&nbsp;<sup>D</sup>                                | Cut-off effort          | Budget (execs) | Budget (time) |
+|----------|--------------------------------------------|-------------------------------------------------------|----------------------------------------------------|--------------------------------------------------|------------------------------------------------|------------------------------------------------------------------------|----------------------------------------------------------|-------------------------|----------------|---------------|
+| ACOTSP   | [acotsp.zip][src-acotsp] | [parameters-acotsp.txt][par-acotsp] | [train-acotsp.zip][train-acotsp] | [test-acotsp.zip][test-acotsp] | [bkv-acotsp.txt][bkv-acotsp] | [parameters-capopt-acotsp.txt][parc-acotsp] | [scenario-acotsp.txt][scenario-acotsp] | 60 sec.                 | 2000           | 21000 sec.    |
+| HEACOL   | [heacol.zip][src-heacol] | [parameters-heacol.txt][par-heacol] | [train-heacol.zip][train-heacol] | [test-heacol.zip][test-heacol] | [bkv-heacol.txt][bkv-heacol] | [parameters-capopt-heacol.txt][parc-heacol] | [scenario-heacol.txt][scenario-heacol] | 10<sup>9</sup> checks   | 2000           | 3200 sec.     |
+| TSBPP    | [tsbpp.zip][src-tsbpp]   | [parameters-tsbpp.txt][par-tsbpp]   | [train-tsbpp.zip][train-tsbpp]   | [test-tsbpp.zip][test-tsbpp]   | [bkv-tsbpp.txt][bkv-tsbpp]   | [parameters-capopt-tsbpp.txt][parc-tsbpp]   | [scenario-tsbpp.txt][scenario-tsbpp]   | 5000 iterations         | 500            | 700 sec.      |
+| HHBQP    | [hhbqp.zip][src-hhbqp]   | [parameters-hhbqp.txt][par-hhbqp]   | [train-hhbqp.zip][train-hhbqp]   | [test-hhbqp.zip][test-hhbqp]   | [bkv-hhbqp.txt][bkv-hhbqp]   | [parameters-capopt-hhbqp.txt][parc-hhbqp]   | [scenario-hhbqp.txt][scenario-hhbqp]   | 20/30 sec. (train/test) | 2000           | 7000 sec.     |
+
+
+<sup>A</sup> We modified the source code of all target algorithms to make them printing the solution costs (and the used effort, when applicable) during the execution.<br>
+<sup>B</sup> You can acces the original source code of all scenarios: [ACOTSP][acotsp], [HEACOL][heacol], [TSBPP][tsbpp], [HHBQP][hhbqp].<br>
+<sup>C</sup> The *parameters-capopt* file is an example that uses the *AD.2* capping method (area-based adaptive method with a<sub>g</sub>= 0.2).<br>
+<sup>D</sup> The *scenario.txt* file is an example that uses a seed equals to 1114706456.
+
 ***
 
-## References
+### References
 
 [1] Dorigo, M., Stützle, T., 2004. Ant Colony Optimization. MIT Press, Cambridge, MA.
 
