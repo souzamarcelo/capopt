@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 import sys
 import os
 import shutil
@@ -67,7 +67,7 @@ def runAlgorithm(command):
         output = readOutput.readlines()
         point = None
         if len(output) > 0:
-            point = parseOutput(output, time.time() - startTime, readOutput)
+            point = parseOutput(output, time.time() - startTime)
             if point is not None:
                 trajectory.addPoint(point, data.scenario['effort-limit'])
         executionEffort = max(executionEffort, (time.time() - startTime if data.scenario['effort-type'] == "time" else point.effort if point is not None else trajectory.getLastEffort() if not trajectory.isEmpty() else 0))
@@ -130,11 +130,10 @@ def killProcess(pid):
         pass
 
 
-def parseOutput(output, elapsedTime, readOutput):
+def parseOutput(output, elapsedTime):
     return defaultParseOutput(output, elapsedTime)
     #return scipParseOutput(output, elapsedTime)
-    #return spearParseOutput(readOutput)
-    #return lkhParseOutput(readOutput, elapsedTime)
+    #return lkhParseOutput(output, elapsedTime)
 
 
 def defaultParseOutput(output, elapsedTime):
@@ -162,18 +161,6 @@ def defaultParseOutput(output, elapsedTime):
     return point
 
 
-def spearParseOutput(readOutput):
-    readOutput.seek(0)
-    content = readOutput.read()
-    if "runtime" in content:
-        if "UNKNOWN" in content:
-            return Point(1000, 1000)
-        else:
-            runtime = float(content[content.index('runtime') + 8 : content.index('[s]') - 1])
-            return Point(runtime, runtime)
-    return None
-
-
 def scipParseOutput(readOutput, elapsedTime):
     point = None
     bestValue = float('inf')
@@ -188,14 +175,11 @@ def scipParseOutput(readOutput, elapsedTime):
     return Point(round(elapsedTime, 1), bestValue) if bestValue != float('inf') else None
 
 
-def lkhParseOutput(readOutput, elapsedTime):
-    readOutput.seek(0)
-    output = readOutput.read()
-    content = output.split('\n')
-    bestSoFar = float('inf')
-    for line in reversed(content):
+def lkhParseOutput(output, elapsedTime):
+    for line in reversed(output):
         if 'Cost = ' in line and 'Time = ' in line:
             bestSoFar = min(bestSoFar, int(line[line.index('Cost = ') + 7: line.index(', Time')]))
+    print(bestSoFar)
     return Point(round(elapsedTime, 1), bestSoFar) if bestSoFar != float('inf') else None
 
 
