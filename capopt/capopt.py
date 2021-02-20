@@ -93,7 +93,7 @@ def runAlgorithm(command):
     if status == 0:
         output = readOutput.readlines()
         if len(output) > 0:
-            point = parseOutput(output, time.time() - startTime, readOutput)
+            point = parseOutput(output, time.time() - startTime)
             if point is not None:
                 trajectory.addPoint(point, data.scenario['effort-limit'])
                 executionEffort = point.effort
@@ -161,7 +161,7 @@ def defaultParseOutput(output, elapsedTime):
     return point
 
 
-def scipParseOutput(readOutput, elapsedTime):
+def scipParseOutput(output, elapsedTime):
     point = None
     bestValue = float('inf')
     for line in output:
@@ -176,10 +176,10 @@ def scipParseOutput(readOutput, elapsedTime):
 
 
 def lkhParseOutput(output, elapsedTime):
+    bestSoFar = float('inf')
     for line in reversed(output):
         if 'Cost = ' in line and 'Time = ' in line:
             bestSoFar = min(bestSoFar, int(line[line.index('Cost = ') + 7: line.index(', Time')]))
-    print(bestSoFar)
     return Point(round(elapsedTime, 1), bestSoFar) if bestSoFar != float('inf') else None
 
 
