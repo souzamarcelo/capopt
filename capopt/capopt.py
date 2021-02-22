@@ -28,7 +28,7 @@ def main():
         candidateDesc += item + " "
     candidateDesc = candidateDesc[:-1]
     
-    data = Data(candidateId, candidateDesc, instanceId, instanceName, seed)
+    data = Data(candidateId, candidateDesc, instanceId, instanceName, seed, (not os.path.isfile("irace.Rdata")))
     
     if data.scenario['capping'] and "t" not in instanceId:
         capping = Capping(data)
@@ -99,7 +99,7 @@ def runAlgorithm(command):
                 executionEffort = point.effort
         result = "ok" if checkFeasibility(fileOutput) else "infeasible"
         value = trajectory.getResult() if result != "infeasible" else sys.maxsize
-        if data.scenario['budget-type'] == "timeout": print(str(value) + ' ' + str(time.time() - startTime))
+        if data.scenario['budget-type'] == "timeout" or data.estimationRun: print(str(value) + ' ' + str(time.time() - startTime))
         else: print(value)
     elif status == 11:
         result = "capped" if checkFeasibility(fileOutput) else "infeasible"

@@ -9,6 +9,8 @@ import rpy2.robjects as robjects
 from classes import Point
 from classes import Trajectory
 
+estimationRun = False
+
 scenarioAttributes = [
     {'name':'executable',           'type':'str',       'default':None},
     {'name':'fixed-params',         'type':'str',       'default':''},
@@ -29,7 +31,7 @@ scenarioAttributes = [
     {'name':'p',                    'type':'float',     'default':0.1},
     {'name':'alpha',                'type':'int',       'default':10},
     {'name':'budget-type',          'type':'str',       'default':'executions'},
-    {'name':'external-halt',       'type':'boolean',   'default':False}
+    {'name':'external-halt',       'type':'boolean',    'default':False}
 ]
 
 executionAttributes = [
@@ -59,12 +61,14 @@ executionAttributes = [
 ]
 
 class Data:
-    def __init__(self, _candidateId, _candidateDesc, _instanceId, _instanceName, _seed):
+    def __init__(self, _candidateId, _candidateDesc, _instanceId, _instanceName, _seed, _estimationRun):
+        self.estimationRun = _estimationRun
         self.previousExecutions = []
         self.execution = {}
         self.scenario = {}
         self.prepareScenario(_instanceName)
-        self.prepareExecutions(_candidateId, _candidateDesc, _instanceId, _instanceName, _seed)
+        if not self.estimationRun: self.prepareExecutions(_candidateId, _candidateDesc, _instanceId, _instanceName, _seed)
+        else: self.prepareEstimationRun(_candidateId, _candidateDesc, _instanceId, _instanceName, _seed)
 
 
     def prepareExecutions(self, _candidateId, _candidateDesc, _instanceId, _instanceName, _seed):
@@ -120,7 +124,21 @@ class Data:
         if self.scenario['effort-limit'] == 0: self.scenario['effort-limit'] = self.getDynamicEffortLimit(instanceName)
 
 
+    def prepareEstimationRun(self, _candidateId, _candidateDesc, _instanceId, _instanceName, _seed):
+        _instanceName = self.cleanInstance(_instanceName)
+        for item in executionAttributes:
+            self.execution[item['name']] = None
+        self.execution['candidate-id'] = _candidateId
+        self.execution['candidate-desc'] = _candidateDesc
+        self.execution['instance-id'] = _instanceId
+        self.execution['instance-name'] = _instanceName
+        self.execution['seed'] = _seed
+        self.scenario['capping'] = False
+        
+    
     def finish(self, executionEffort, status, trajectory, capping):
+        if self.estimationRun: return
+
         self.execution['stop-datetime'] = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         self.execution['stop-timestamp'] = time.time()
         self.execution['execution-time'] = (self.execution['stop-timestamp'] - self.execution['start-timestamp'])
