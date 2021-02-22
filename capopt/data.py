@@ -31,7 +31,7 @@ scenarioAttributes = [
     {'name':'p',                    'type':'float',     'default':0.1},
     {'name':'alpha',                'type':'int',       'default':10},
     {'name':'budget-type',          'type':'str',       'default':'executions'},
-    {'name':'external-halt',        'type':'boolean',    'default':False}
+    {'name':'external-halt',        'type':'boolean',   'default':False}
 ]
 
 executionAttributes = [
