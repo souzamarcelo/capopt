@@ -153,10 +153,11 @@ class Data:
         nbExecutions = 0
         nbCapping = 0
         for exe in self.previousExecutions:
-            if exe['iteration'] == self.execution['iteration'] - 1:
-                nbExecutions += 1
-                if exe['status'] == "capped":
-                    nbCapping += 1
+            if exe['status'] != "infeasible":
+                if exe['iteration'] == self.execution['iteration'] - 1:
+                    nbExecutions += 1
+                    if exe['status'] == "capped":
+                        nbCapping += 1
         return nbExecutions, nbCapping
 
 
@@ -173,17 +174,19 @@ class Data:
         resultList = []
         for exe in self.previousExecutions:
             if exe['iteration'] == self.execution['iteration'] - 1:
-                if (capped and exe['status'] == "capped") or ((not capped) and exe['status'] == "ok"):
-                    resultList.append(exe)
+                if exe['status'] != "infeasible":
+                    if (capped and exe['status'] == "capped") or ((not capped) and exe['status'] == "ok"):
+                        resultList.append(exe)
         return resultList
     
     
     def getExecutions(self, _instanceId, capped, maxExecId = float("inf")):
         resultList = []
         for exe in self.previousExecutions:
-            if exe['instance-id'] == _instanceId and exe['id'] <= maxExecId:
-                if (capped and exe['status'] == "capped") or ((not capped) and exe['status'] == "ok"):
-                    resultList.append(exe)
+            if exe['status'] != "infeasible":
+                if exe['instance-id'] == _instanceId and exe['id'] <= maxExecId:
+                    if (capped and exe['status'] == "capped") or ((not capped) and exe['status'] == "ok"):
+                        resultList.append(exe)
         return resultList
 
 

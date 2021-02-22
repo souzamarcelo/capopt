@@ -97,18 +97,15 @@ def runAlgorithm(command):
             if point is not None:
                 trajectory.addPoint(point, data.scenario['effort-limit'])
                 executionEffort = point.effort
-        
-        if data.scenario['budget-type'] == "timeout": print(str(trajectory.getResult()) + ' ' + str(time.time() - startTime))
-        else: print(trajectory.getResult())
-        result = "ok"
+        result = "ok" if checkFeasibility(fileOutput) else "infeasible"
+        value = trajectory.getResult() if result != "infeasible" else sys.maxsize
+        if data.scenario['budget-type'] == "timeout": print(str(value) + ' ' + str(time.time() - startTime))
+        else: print(value)
     elif status == 11:
-        result = "capped"
-        if data.scenario['penalty'] == "biggest":
-            if data.scenario['budget-type'] == "timeout": print(str(sys.maxsize) + ' ' + str(time.time() - startTime))
-            else: print(sys.maxsize)
-        elif data.scenario['penalty'] == "best-so-far":
-            if data.scenario['budget-type'] == "timeout": print(str(trajectory.getResult()) + ' ' + str(time.time() - startTime))
-            else: print(trajectory.getResult())
+        result = "capped" if checkFeasibility(fileOutput) else "infeasible"
+        value = trajectory.getResult() if (result == "capped" and data.scenario['penalty'] == "best-so-far") else sys.maxsize
+        if data.scenario['budget-type'] == "timeout": print(str(value) + ' ' + str(time.time() - startTime))
+        else: print(value)
     else:
         exit(status)
     
@@ -194,6 +191,12 @@ def checkOutput(output, isTime):
         if len(output[0]) <= 0: return False
         if len(output[1]) <= 0: return False
     return True
+
+
+def checkFeasibility(fileOutput):
+    fileOutput.seek(0)
+    content = fileOutput.read()
+    return not ("solution is not feasible" in content)
 
 
 if __name__ == "__main__":
