@@ -11,10 +11,10 @@
 
 The *capopt* program implements several capping methods to speed up the automatic configuration of optimization algorithms. These methods use the performance of previously seen executions to determine a performance envelope, which is used to evaluate how good a new configuration is during its execution. If a poorly performing configuration is identified, *capopt* stops the execution and returns a penalized result value.
 
-The following article describes *capopt* in detail and presents an extensive experimental evaluation. You can also check the [supplementary material](supp-cor) for further experimental details.
+The following article describes *capopt* in detail and presents an extensive experimental evaluation. You can also check the [supplementary material][suppcor] for further experimental details.
 
 + Marcelo de Souza , Marcus Ritt, and Manuel López-Ibáñez. **Capping Strategies for the Automatic Configuration of Optimization Algorithms**. Submitted to Computers & Operations Research, 2021.<br>
-[preprint will be available soon | [supplementary material](supp-cor)]
+[preprint will be available soon | [supplementary material][suppcor]]
 
 #### Bibtex
 ```bibtex
@@ -162,3 +162,4 @@ IMPORTANT NOTE: Please be aware that the fact that this program is released as F
 [psutil]: https://psutil.readthedocs.io/en/latest
 [example-acotsp]: https://github.com/capopt/capopt/tree/master/examples/acotsp
 [iracedoc]: https://cran.r-project.org/web/packages/irace/vignettes/irace-package.pdf
+[suppcor]: https://github.com/souzamarcelo/supp-cor-capopt
