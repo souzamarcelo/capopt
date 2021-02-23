@@ -1,8 +1,0 @@
-parameterFile = "./parameters-acotsp.txt"
-execDir = "."
-trainInstancesDir = "./instances"
-maxExperiments = 2000
-digits = 2
-targetRunner = "./capopt/capopt.py"
-seed = 1114706456
-deterministic = FALSE

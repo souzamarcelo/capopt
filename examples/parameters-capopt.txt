@@ -23,6 +23,9 @@ effort-type: time
 # Type of budget used in irace [optional, default: executions, values: executions, timeout]
 budget-type: executions
 
+# Allows capopt to halt execution if it exceeds the effort limit [optional, default: False, values: True, False]
+external-halt: False
+
 # Enables capping [required, default: True, values: True, False]
 capping: True
 
