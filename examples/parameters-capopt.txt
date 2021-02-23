@@ -15,7 +15,7 @@ seed-command: --seed
 effort-limit-command: -t
 
 # Effort limit [required when using capping, default: 60]
-effort-limit: 20
+effort-limit: 60
 
 # Type of effort [required when using capping, default: time, values: time, other]
 effort-type: time
@@ -33,25 +33,25 @@ capping: True
 penalty: best-so-far
 
 # Envelope type [required when using capping, default: profile, values: profile, area]
-envelope: area
+envelope: profile
 
 # Strategy [required when using capping, default: elitist, values: elitist, adaptive]
-strategy: adaptive
+strategy: elitist
 
-# Aggressiveness goal [required when using adaptive strategy, default: 0.5, values: [0, 1]]
+# Aggressiveness goal [required when using adaptive strategy, default: 0.4, values: [0, 1]]
 ag: 0.4
 
 # Tolerance of deviation [required when using adaptive strategy, default: 0.05, values: [0, 1]]
 epsilon: 0.05
 
-# Aggregation of replications [required when using elitist strategy, default: worst, values: worst, best, exp]
-ar: worst
+# Aggregation of replications [required when using elitist strategy, default: exp, values: worst, best, exp]
+ar: exp
 
 # Aggregation of configurations [required when using elitist strategy, default: worst, values: worst, best]
-ac: best
+ac: worst
 
 # Aggressiveness of the exponential model [required when using ar = exp, default: 0.1, values: [0, 1]]
-p: 0.3
+p: 0.1
 
 # Penalty constant of the exponential model [required when using ar = exp, default: 10, values: [1, inf)]
 alpha: 10
