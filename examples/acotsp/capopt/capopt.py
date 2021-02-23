@@ -28,7 +28,7 @@ def main():
         candidateDesc += item + " "
     candidateDesc = candidateDesc[:-1]
     
-    data = Data(candidateId, candidateDesc, instanceId, instanceName, seed)
+    data = Data(candidateId, candidateDesc, instanceId, instanceName, seed, (not os.path.isfile("irace.Rdata")))
     
     if data.scenario['capping'] and "t" not in instanceId:
         capping = Capping(data)
@@ -67,11 +67,16 @@ def runAlgorithm(command):
         output = readOutput.readlines()
         point = None
         if len(output) > 0:
-            point = parseOutput(output, time.time() - startTime, readOutput)
+            point = parseOutput(output, time.time() - startTime)
             if point is not None:
                 trajectory.addPoint(point, data.scenario['effort-limit'])
         executionEffort = max(executionEffort, (time.time() - startTime if data.scenario['effort-type'] == "time" else point.effort if point is not None else trajectory.getLastEffort() if not trajectory.isEmpty() else 0))
         executionEffort = min(executionEffort, data.scenario['effort-limit'])
+
+        if data.scenario['external-halt'] and executionEffort == data.scenario['effort-limit']:
+            killProcess(process.pid)
+            status = 0
+            break
 
         if data.scenario['capping']:
             if capping.cap(executionEffort, trajectory):
@@ -79,6 +84,7 @@ def runAlgorithm(command):
                 killProcess(process.pid)
                 status = 11
                 break
+
         if data.scenario['effort-type'] == "time": time.sleep(0.5)
 
     if status is None:
@@ -87,22 +93,19 @@ def runAlgorithm(command):
     if status == 0:
         output = readOutput.readlines()
         if len(output) > 0:
-            point = parseOutput(output, time.time() - startTime, readOutput)
+            point = parseOutput(output, time.time() - startTime)
             if point is not None:
                 trajectory.addPoint(point, data.scenario['effort-limit'])
                 executionEffort = point.effort
-        
-        if data.scenario['budget-type'] == "timeout": print(str(trajectory.getResult()) + ' ' + str(time.time() - startTime))
-        else: print(trajectory.getResult())
-        result = "ok"
+        result = "ok" if checkFeasibility(fileOutput) else "infeasible"
+        value = trajectory.getResult() if result != "infeasible" else sys.maxsize
+        if data.scenario['budget-type'] == "timeout" or data.estimationRun: print(str(value) + ' ' + str(time.time() - startTime))
+        else: print(value)
     elif status == 11:
-        result = "capped"
-        if data.scenario['penalty'] == "biggest":
-            if data.scenario['budget-type'] == "timeout": print(str(sys.maxsize) + ' ' + str(time.time() - startTime))
-            else: print(sys.maxsize)
-        elif data.scenario['penalty'] == "best-so-far":
-            if data.scenario['budget-type'] == "timeout": print(str(trajectory.getResult()) + ' ' + str(time.time() - startTime))
-            else: print(trajectory.getResult())
+        result = "capped" if checkFeasibility(fileOutput) else "infeasible"
+        value = trajectory.getResult() if (result == "capped" and data.scenario['penalty'] == "best-so-far") else sys.maxsize
+        if data.scenario['budget-type'] == "timeout": print(str(value) + ' ' + str(time.time() - startTime))
+        else: print(value)
     else:
         exit(status)
     
@@ -124,9 +127,10 @@ def killProcess(pid):
         pass
 
 
-def parseOutput(output, elapsedTime, readOutput):
+def parseOutput(output, elapsedTime):
     return defaultParseOutput(output, elapsedTime)
-    #return spearParseOutput(readOutput)
+    #return scipParseOutput(output, elapsedTime)
+    #return lkhParseOutput(output, elapsedTime)
 
 
 def defaultParseOutput(output, elapsedTime):
@@ -154,16 +158,26 @@ def defaultParseOutput(output, elapsedTime):
     return point
 
 
-def spearParseOutput(readOutput):
-    readOutput.seek(0)
-    content = readOutput.read()
-    if "runtime" in content:
-        if "UNKNOWN" in content:
-            return Point(1000, 1000)
-        else:
-            runtime = float(content[content.index('runtime') + 8 : content.index('[s]') - 1])
-            return Point(runtime, runtime)
-    return None
+def scipParseOutput(output, elapsedTime):
+    point = None
+    bestValue = float('inf')
+    for line in output:
+        if 's|' in line and '\n' in line:
+            line = line.replace('\n', '').replace('*', '').strip()
+            content = line.split('|')
+            if len(content) == 2:
+                value = float(line.split('|')[1])
+                value = value * -1
+                bestValue = min(bestValue, value)
+    return Point(round(elapsedTime, 1), bestValue) if bestValue != float('inf') else None
+
+
+def lkhParseOutput(output, elapsedTime):
+    bestSoFar = float('inf')
+    for line in reversed(output):
+        if 'Cost = ' in line and 'Time = ' in line:
+            bestSoFar = min(bestSoFar, int(line[line.index('Cost = ') + 7: line.index(', Time')]))
+    return Point(round(elapsedTime, 1), bestSoFar) if bestSoFar != float('inf') else None
 
 
 def checkOutput(output, isTime):
@@ -179,8 +193,14 @@ def checkOutput(output, isTime):
     return True
 
 
+def checkFeasibility(fileOutput):
+    fileOutput.seek(0)
+    content = fileOutput.read()
+    return not ("solution is not feasible" in content)
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 6:
-        print("Usage: python target-runner.py <candidateId> <instanceId> <seed> <instance> <candParams>")
+        print("Usage: python capopt.py <candidateId> <instanceId> <seed> <instance> <candParams>")
         exit(1)
     main()

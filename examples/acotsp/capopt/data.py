@@ -9,6 +9,8 @@ import rpy2.robjects as robjects
 from classes import Point
 from classes import Trajectory
 
+estimationRun = False
+
 scenarioAttributes = [
     {'name':'executable',           'type':'str',       'default':None},
     {'name':'fixed-params',         'type':'str',       'default':''},
@@ -17,6 +19,8 @@ scenarioAttributes = [
     {'name':'effort-limit-command', 'type':'str',       'default':''},
     {'name':'effort-limit',         'type':'int',       'default':60},
     {'name':'effort-type',          'type':'str',       'default':'time'},
+    {'name':'budget-type',          'type':'str',       'default':'executions'},
+    {'name':'external-halt',        'type':'boolean',   'default':False},
     {'name':'capping',              'type':'boolean',   'default':True},
     {'name':'envelope',             'type':'str',       'default':'profile'},
     {'name':'strategy',             'type':'str',       'default':'elitist'},
@@ -27,8 +31,7 @@ scenarioAttributes = [
     {'name':'ar',                   'type':'str',       'default':'exp'},
     {'name':'ac',                   'type':'str',       'default':'worst'},
     {'name':'p',                    'type':'float',     'default':0.1},
-    {'name':'alpha',                'type':'int',       'default':10},
-    {'name':'budget-type',          'type':'str',       'default':'executions'},
+    {'name':'alpha',                'type':'int',       'default':10}
 ]
 
 executionAttributes = [
@@ -58,12 +61,14 @@ executionAttributes = [
 ]
 
 class Data:
-    def __init__(self, _candidateId, _candidateDesc, _instanceId, _instanceName, _seed):
+    def __init__(self, _candidateId, _candidateDesc, _instanceId, _instanceName, _seed, _estimationRun):
+        self.estimationRun = _estimationRun
         self.previousExecutions = []
         self.execution = {}
         self.scenario = {}
         self.prepareScenario(_instanceName)
-        self.prepareExecutions(_candidateId, _candidateDesc, _instanceId, _instanceName, _seed)
+        if not self.estimationRun: self.prepareExecutions(_candidateId, _candidateDesc, _instanceId, _instanceName, _seed)
+        else: self.prepareEstimationRun(_candidateId, _candidateDesc, _instanceId, _instanceName, _seed)
 
 
     def prepareExecutions(self, _candidateId, _candidateDesc, _instanceId, _instanceName, _seed):
@@ -119,7 +124,21 @@ class Data:
         if self.scenario['effort-limit'] == 0: self.scenario['effort-limit'] = self.getDynamicEffortLimit(instanceName)
 
 
+    def prepareEstimationRun(self, _candidateId, _candidateDesc, _instanceId, _instanceName, _seed):
+        _instanceName = self.cleanInstance(_instanceName)
+        for item in executionAttributes:
+            self.execution[item['name']] = None
+        self.execution['candidate-id'] = _candidateId
+        self.execution['candidate-desc'] = _candidateDesc
+        self.execution['instance-id'] = _instanceId
+        self.execution['instance-name'] = _instanceName
+        self.execution['seed'] = _seed
+        self.scenario['capping'] = False
+        
+    
     def finish(self, executionEffort, status, trajectory, capping):
+        if self.estimationRun: return
+
         self.execution['stop-datetime'] = datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         self.execution['stop-timestamp'] = time.time()
         self.execution['execution-time'] = (self.execution['stop-timestamp'] - self.execution['start-timestamp'])
@@ -152,10 +171,11 @@ class Data:
         nbExecutions = 0
         nbCapping = 0
         for exe in self.previousExecutions:
-            if exe['iteration'] == self.execution['iteration'] - 1:
-                nbExecutions += 1
-                if exe['status'] == "capped":
-                    nbCapping += 1
+            if exe['status'] != "infeasible":
+                if exe['iteration'] == self.execution['iteration'] - 1:
+                    nbExecutions += 1
+                    if exe['status'] == "capped":
+                        nbCapping += 1
         return nbExecutions, nbCapping
 
 
@@ -172,17 +192,19 @@ class Data:
         resultList = []
         for exe in self.previousExecutions:
             if exe['iteration'] == self.execution['iteration'] - 1:
-                if (capped and exe['status'] == "capped") or ((not capped) and exe['status'] == "ok"):
-                    resultList.append(exe)
+                if exe['status'] != "infeasible":
+                    if (capped and exe['status'] == "capped") or ((not capped) and exe['status'] == "ok"):
+                        resultList.append(exe)
         return resultList
     
     
     def getExecutions(self, _instanceId, capped, maxExecId = float("inf")):
         resultList = []
         for exe in self.previousExecutions:
-            if exe['instance-id'] == _instanceId and exe['id'] <= maxExecId:
-                if (capped and exe['status'] == "capped") or ((not capped) and exe['status'] == "ok"):
-                    resultList.append(exe)
+            if exe['status'] != "infeasible":
+                if exe['instance-id'] == _instanceId and exe['id'] <= maxExecId:
+                    if (capped and exe['status'] == "capped") or ((not capped) and exe['status'] == "ok"):
+                        resultList.append(exe)
         return resultList
 
 
@@ -241,7 +263,7 @@ class Data:
 
 
     def cleanInstance(self, instance):
-        return instance[instance.rindex("/") + 1:instance.rindex(".")]
+        return instance[instance.rindex("/") + 1:instance.rindex(".") if "." in instance else len(instance)]
 
     
     def isfloat(self, str):

@@ -203,7 +203,8 @@ class ProfileCapping:
         ratios = []
         for exe in executions:
             steps.append(len([point for point in exe['trajectory'].points if point.effort >= effortCap]))
-            ratios.append(exe['trajectory'].getResult() / exe['trajectory'].getValue(effortCap))
+            if exe['trajectory'].getValue(effortCap) != 0:
+                ratios.append(exe['trajectory'].getResult() / exe['trajectory'].getValue(effortCap))
         medianSteps = ceil(statistics.median(steps))
         medianRatio = statistics.median(ratios)
 

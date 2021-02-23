@@ -19,6 +19,8 @@ scenarioAttributes = [
     {'name':'effort-limit-command', 'type':'str',       'default':''},
     {'name':'effort-limit',         'type':'int',       'default':60},
     {'name':'effort-type',          'type':'str',       'default':'time'},
+    {'name':'budget-type',          'type':'str',       'default':'executions'},
+    {'name':'external-halt',        'type':'boolean',   'default':False},
     {'name':'capping',              'type':'boolean',   'default':True},
     {'name':'envelope',             'type':'str',       'default':'profile'},
     {'name':'strategy',             'type':'str',       'default':'elitist'},
@@ -29,9 +31,7 @@ scenarioAttributes = [
     {'name':'ar',                   'type':'str',       'default':'exp'},
     {'name':'ac',                   'type':'str',       'default':'worst'},
     {'name':'p',                    'type':'float',     'default':0.1},
-    {'name':'alpha',                'type':'int',       'default':10},
-    {'name':'budget-type',          'type':'str',       'default':'executions'},
-    {'name':'external-halt',        'type':'boolean',   'default':False}
+    {'name':'alpha',                'type':'int',       'default':10}
 ]
 
 executionAttributes = [
