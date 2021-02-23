@@ -90,7 +90,7 @@ To use *capopt* with the irace configurator, set the project directory according
 
 ***
 
-## Example (ACOTSP)
+## Example
 
 The [examples/acotsp](examples/acotsp) directory contains the files for using capping to configure ACOTSP:
 + `capopt` folder;
