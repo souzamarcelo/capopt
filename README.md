@@ -13,16 +13,21 @@ The *capopt* program implements several capping methods to speed up the automati
 
 The following article describes *capopt* in detail and presents an extensive experimental evaluation. You can also check the [supplementary material][suppcor] for further experimental details.
 
-+ Marcelo de Souza, Marcus Ritt, and Manuel López-Ibáñez. **Capping Strategies for the Automatic Configuration of Optimization Algorithms**. Submitted to Computers & Operations Research, 2021.<br>
-[preprint will be available soon | [supplementary material][suppcor]]
++ Marcelo de Souza, Marcus Ritt, and Manuel López-Ibáñez. **[Capping Strategies for the Automatic Configuration of Optimization Algorithms](https://doi.org/10.1016/j.cor.2021.105615)**.  Computers & Operations Research, 139:105615, 2022.<br>
+[https://doi.org/10.1016/j.cor.2021.105615 | [supplementary material][suppcor]]
 
 #### Bibtex
 ```bibtex
-@article{DeSouzaEtAl2021,
-   title   = {Capping Strategies for the Automatic Configuration of Optimization Algorithms},
-   author  = {Souza, Marcelo and Ritt, Marcus and L{\'o}pez-Ib{\'a}{\~n}ez, Manuel},
-   journal = {Submitted to Computers \& Operations Research},
-   year    = {2021}
+@article{SouRitLop2021cap,
+  author = { Marcelo {De Souza}  and  Marcus Ritt and  Manuel L{\'o}pez-Ib{\'a}{\~n}ez },
+  title = {Capping Methods for the Automatic Configuration of
+                  Optimization Algorithms},
+  journal = {Computers \& Operations Research},
+  doi = {10.1016/j.cor.2021.105615},
+  year = 2022,
+  volume = 139,
+  pages = 105615,
+  supplement = {https://github.com/souzamarcelo/supp-cor-capopt}
 }
 ```
 
