@@ -13,7 +13,7 @@ The *capopt* program implements several capping methods to speed up the automati
 
 The following article describes *capopt* in detail and presents an extensive experimental evaluation. You can also check the [supplementary material][suppcor] for further experimental details.
 
-+ Marcelo de Souza, Marcus Ritt, and Manuel López-Ibáñez. **[Capping Strategies for the Automatic Configuration of Optimization Algorithms](https://doi.org/10.1016/j.cor.2021.105615)**.  Computers & Operations Research, 139:105615, 2022.<br>
++ Marcelo de Souza, Marcus Ritt, and Manuel López-Ibáñez. **[Capping Methods for the Automatic Configuration of Optimization Algorithms](https://doi.org/10.1016/j.cor.2021.105615)**.  Computers & Operations Research, 139:105615, 2022.<br>
 [https://doi.org/10.1016/j.cor.2021.105615 | [supplementary material][suppcor]]
 
 #### Bibtex
